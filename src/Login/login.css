@@ -1,0 +1,234 @@
+:root {
+    --primary-bg: hsl(213, 85%, 97%);
+    --primary-color: hsl(233, 36%, 38%);
+    --text-color: hsl(0, 0%, 30%);
+    --input-bg: #fff;
+    --shadow: 0 0 2em hsl(231, 62%, 94%);
+  }
+  
+  * {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    background: hsl(218, 50%, 91%);
+  }
+  
+  
+  .screen-1 {
+    background: var(--primary-bg);
+    padding: 1.5em;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+  }
+  
+  
+  .logo {
+    margin-top: -2em;
+    display: flex;
+    padding-top: 30px;
+    justify-content: center;
+  }
+  
+  
+  .password {
+    background: var(--input-bg);
+    box-shadow: var(--shadow);
+    padding: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 1.5em auto 0;
+    border-radius: 20px;
+    color: var(--text-color);
+  }
+
+  .email {
+    background: var(--input-bg);
+    box-shadow: var(--shadow);
+    padding: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 1.5em auto 0;
+    border-radius: 20px;
+    color: var(--text-color);
+  }
+  
+  .email label,
+  .password label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.2rem;
+  }
+  
+  input {
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 0.6em 0.9em;
+    font-size: 1em;
+    width: 100%;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+  
+  input:focus {
+    border-color: var(--primary-color);
+  }
+  
+  input::placeholder {
+    color: #aaa;
+    font-size: 0.9em;
+  }
+  
+  .sec-2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  
+  ion-icon {
+    font-size: 1.4rem;
+    color: var(--text-color);
+  }
+  
+  .show-hide {
+    margin-left: auto;
+    cursor: pointer;
+  }
+  
+  button.login {
+    padding: 1em;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 0px;
+    font-weight: 600;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    margin: 1.5em auto 0; /* 🔥 Add top margin here */
+    width: 60%;
+    display: block;
+  }
+  
+  
+  button.login:hover {
+    background: hsl(233, 45%, 28%);
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: hsl(0, 0%, 37%);
+    padding-top: 1em;
+    margin: 0 30px;
+  }
+  
+  .footer span {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .footer span:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+  
+  .register-form {
+    margin-top: 1em;
+    background: var(--input-bg);
+    box-shadow: var(--shadow);
+    padding: 1.5em;
+    border-radius: 20px;
+    margin: 0 30px;
+  }
+  
+  .register-form h3 {
+    margin-bottom: 1em;
+    color: var(--primary-color);
+    text-align: center;
+  }
+  
+  .register-form .form-group {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .register-form .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.4rem;
+  }
+  
+  .register-form .form-group input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.6em 0.9em;
+  }
+  
+  .register-form .form-group input:focus {
+    border-color: var(--primary-color);
+  }
+  
+  .register-form button {
+    margin-top: 1em;
+    width: 100%;
+    padding: 0.9em;
+    border: none;
+    border-radius: 25px;
+    background: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .register-form button:hover {
+    background: hsl(233, 45%, 28%);
+  }
+  
+  @media (max-width: 400px) {
+    .footer {
+      flex-direction: column;
+      gap: 1em;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .screen-1 {
+      padding: 1rem;
+    }
+  
+    .register-form {
+      padding: 1em;
+    }
+  }
+  
+
+  .login:hover {
+    transform: translate(-4px, -4px);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px red;
+  }
+  
+  .login:active {
+    transform: translate(0, 0);
+    border-radius: 16px;
+    box-shadow: none;
+  }

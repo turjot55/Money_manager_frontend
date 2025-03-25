@@ -1,0 +1,17 @@
+/* client/src/components/Footer.css */
+
+.footer-main {
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+    background-color: transparent;
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 600px) {
+    .footer-main {
+      font-size: 0.8rem;
+    }
+  }
+  
