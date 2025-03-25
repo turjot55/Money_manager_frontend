@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   
   FiChevronDown,
@@ -13,11 +13,35 @@ export const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
 //   const [selected, setSelected] = useState("Dashboard");
 
+
+// inside SidebarWithProfile component
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setOpen(false);  // hide sidebar on small screens
+    } else {
+      setOpen(true);   // show sidebar on large screens
+    }
+  };
+
+  // Run once on mount
+  handleResize();
+
+  // Run on window resize
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
+  
+
   return (
     <motion.nav
       layout
       className="sidebar"
-      style={{ width: open ? "225px" : "fit-content" }}
+      style={{
+        width: open ? (window.innerWidth < 480 ? "140px" : "225px") : "fit-content"
+      }}
     >
       <TitleSection open={open} currentUser={currentUser} logout={logout} />
 
@@ -125,17 +149,23 @@ const Logo = () => {
 };
 
 const ToggleClose = ({ open, setOpen }) => {
-  return (
-    <motion.button
-      layout
-      onClick={() => setOpen((pv) => !pv)}
-      className="toggle-button"
-    >
-      <div className="toggle-content">
-        <motion.div layout className="toggle-icon">
-          <FiChevronsRight className={`chevron-icon ${open ? "rotated" : ""}`} />
-        </motion.div>
-        {open && (
+    const isMobile = window.innerWidth < 768;
+  
+    const handleToggle = () => {
+      setOpen((prev) => !prev);
+    };
+  
+    return (
+      <motion.button
+        layout
+        onClick={handleToggle}
+        className="toggle-button"
+      >
+        <div className="toggle-content">
+          <motion.div layout className="toggle-icon">
+            <FiChevronsRight className={`chevron-icon ${open ? "rotated" : ""}`} />
+          </motion.div>
+  
           <motion.span
             layout
             initial={{ opacity: 0, y: 12 }}
@@ -143,10 +173,13 @@ const ToggleClose = ({ open, setOpen }) => {
             transition={{ delay: 0.125 }}
             className="hide-label"
           >
-            Hide
+            {open ? "Hide" : isMobile ? "OP" : ""}
           </motion.span>
-        )}
-      </div>
-    </motion.button>
-  );
-};
+        </div>
+      </motion.button>
+    );
+  };
+  
+  
+  
+

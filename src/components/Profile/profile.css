@@ -7,6 +7,7 @@
   .sidebar {
     position: sticky;
     top: 0;
+    width: 225px;
     height: 100vh;
     flex-shrink: 0;
     border-right: 1px solid #cbd5e1;
@@ -198,3 +199,53 @@
     border-radius: 16px;
     box-shadow: none;
   }
+
+  @media (max-width: 468px) {
+    .sidebar {
+      width: 120px; /* ✅ Smaller sidebar for iPhone */
+      font-size: 0.65rem;
+      padding: 0.25rem;
+    }
+  
+    .icon-container {
+      width: 32px;
+      font-size: 1rem;
+    }
+  
+    .option-title,
+    .title-main,
+    .title-sub {
+      font-size: 0.6rem;
+    }
+  
+    .notif-badge {
+      font-size: 0.55rem;
+      right: 0.2rem;
+      top: 42%;
+      padding: 0.1rem 0.25rem;
+    }
+  
+    .logo-box {
+      width: 32px;
+      height: 32px;
+    }
+  
+    .chevron-icon {
+      font-size: 0.9rem;
+    }
+  
+    .toggle-button {
+      padding: 0.3rem;
+    }
+
+    .toggle-content {
+        display: none;
+    }
+
+    
+  
+    .hide-label {
+      font-size: 0.6rem;
+    }
+  }
+  
