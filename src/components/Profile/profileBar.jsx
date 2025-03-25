@@ -36,6 +36,10 @@ useEffect(() => {
   
 
   return (
+    
+    <div className="sidebar-wrapper ">
+
+    
     <motion.nav
       layout
       className="sidebar"
@@ -57,6 +61,7 @@ useEffect(() => {
 
       <ToggleClose open={open} setOpen={setOpen} />
     </motion.nav>
+    </div>
   );
 };
 
@@ -173,10 +178,11 @@ const ToggleClose = ({ open, setOpen }) => {
             transition={{ delay: 0.125 }}
             className="hide-label"
           >
-            {open ? "Hide" : isMobile ? "OP" : ""}
+            {open ? "Hide" : isMobile ? "" : ""}
           </motion.span>
         </div>
       </motion.button>
+      
     );
   };
   
