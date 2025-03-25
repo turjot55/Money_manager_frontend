@@ -30,10 +30,10 @@ function App() {
     incomeCurrency: "USD",
     fee: "",
     feeCurrency: "USD",
-    date: new Date().toISOString().slice(0, 16)
+    date: new Date().toISOString().slice(0, 16),
   });
 
-  const [ setBalances] = useState({
+  const [setBalances] = useState({
     payoneer: { amount: 100, currency: "USD" },
     bank: { amount: 0, currency: "BDT" },
   });
@@ -54,10 +54,6 @@ function App() {
     setToken("");
     localStorage.removeItem("token");
   };
-
-  
-    
- 
 
   const addNotification = (type, text) => {
     const id = Date.now();
@@ -117,11 +113,14 @@ function App() {
     const url = authMode === "login" ? "login" : "register";
 
     try {
-      const res = await fetch(`https://money-manager-ym1k.onrender.com/auth/${url}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(authData),
-      });
+      const res = await fetch(
+        `https://money-manager-ym1k.onrender.com/auth/${url}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(authData),
+        }
+      );
 
       const data = await res.json();
 
@@ -161,17 +160,19 @@ function App() {
       fee: parseFloat(formData.fee),
       date: new Date().toISOString(), // 👈 Add this line
     };
-    
 
     try {
-      const res = await fetch("https://money-manager-ym1k.onrender.com/entries", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newEntry),
-      });
+      const res = await fetch(
+        "https://money-manager-ym1k.onrender.com/entries",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(newEntry),
+        }
+      );
 
       const saved = await res.json();
       setEntries([saved, ...entries]);
@@ -254,30 +255,28 @@ function App() {
 
   return (
     <>
-    <div className="app-wrapper">
-      {token && (
-        <SidebarWithProfile currentUser={currentUser} logout={logout} />
-      )}
+      <div className="app-wrapper">
+        {token && (
+          <SidebarWithProfile currentUser={currentUser} logout={logout} />
+        )}
 
-      <div className="app-content">
-        {/* ✅ Your existing content here */}
-      </div>
-   
-    <CookieConsent/>
-      <SlideInNotifications
-        notifications={notifications}
-        removeNotification={removeNotification}
-      />
+        <div className="app-content">{/* ✅ Your existing content here */}</div>
 
-      {token ? (
-        <motion.div
-          className="app"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          {
-            <div className="container">
-              {/* <div className="topbar">
+        <CookieConsent />
+        <SlideInNotifications
+          notifications={notifications}
+          removeNotification={removeNotification}
+        />
+
+        {token ? (
+          <motion.div
+            className="app"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {
+              <div className="container">
+                {/* <div className="topbar">
               
                 <div className="profile-info">
                   <div className="profile-avatar-circle">
@@ -287,152 +286,150 @@ function App() {
                 </div>
                 <button className="dotted-button" onClick={logout}>🔓 Logout</button>
               </div> */}
-              
 
-              {/* <h1 className="header">Money Management Tool</h1> */}
+                {/* <h1 className="header">Money Management Tool</h1> */}
 
-              <motion.div
-                className="card"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <h2 className="section-title">Add Transaction</h2>
-                <form onSubmit={handleSubmit} className="form-grid">
-                  <div className="form-group">
-                    <label>Date Earned</label>
-                    <input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) =>
-                        setFormData({ ...formData, date: e.target.value })
-                      }
-                    />
-                    <label>Platform</label>
-                    <input
-                    required
-                      placeholder="example: upwork"
-                      type="text"
-                      value={formData.platform}
-                      onChange={(e) =>
-                        setFormData({ ...formData, platform: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Income</label>
-                    <input
-                    required
-                      type="number"
-                      value={formData.income}
-                      onChange={(e) =>
-                        setFormData({ ...formData, income: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Income Currency</label>
-                    <select
-                      value={formData.incomeCurrency}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          incomeCurrency: e.target.value,
-                        })
-                      }
-                    >
-                      <option value="USD">USD</option>
-                      <option value="BDT">BDT</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Fee</label>
-                    <input
-                      placeholder="tax: fee or VAT"
-                      type="number"
-                      value={formData.fee}
-                      onChange={(e) =>
-                        setFormData({ ...formData, fee: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Fee Currency</label>
-                    <select
-                      value={formData.feeCurrency}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          feeCurrency: e.target.value,
-                        })
-                      }
-                    >
-                      <option value="USD">USD</option>
-                      <option value="BDT">BDT</option>
-                    </select>
-                  </div>
-                  <div className="form-button">
-                    <button type="submit">Add Entry</button>
-                  </div>
-                </form>
-              </motion.div>
+                <motion.div
+                  className="card"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <h2 className="section-title">Add Transaction</h2>
+                  <form onSubmit={handleSubmit} className="form-grid">
+                    <div className="form-group">
+                      <label>Date Earned</label>
+                      <input
+                        type="date"
+                        value={formData.date}
+                        onChange={(e) =>
+                          setFormData({ ...formData, date: e.target.value })
+                        }
+                      />
+                      <label>Platform</label>
+                      <input
+                        required
+                        placeholder="example: upwork"
+                        type="text"
+                        value={formData.platform}
+                        onChange={(e) =>
+                          setFormData({ ...formData, platform: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Income</label>
+                      <input
+                        required
+                        type="number"
+                        value={formData.income}
+                        onChange={(e) =>
+                          setFormData({ ...formData, income: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Income Currency</label>
+                      <select
+                        value={formData.incomeCurrency}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            incomeCurrency: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="USD">USD</option>
+                        <option value="BDT">BDT</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label>Fee</label>
+                      <input
+                        placeholder="tax: fee or VAT"
+                        type="number"
+                        value={formData.fee}
+                        onChange={(e) =>
+                          setFormData({ ...formData, fee: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Fee Currency</label>
+                      <select
+                        value={formData.feeCurrency}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            feeCurrency: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="USD">USD</option>
+                        <option value="BDT">BDT</option>
+                      </select>
+                    </div>
+                    <div className="form-button">
+                      <button type="submit">Add Entry</button>
+                    </div>
+                  </form>
+                </motion.div>
 
-              <motion.div
-                className="card"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <h2 className="section-title">Balance in USD</h2>
-                <div className="balances">
-                  <div className="balance-item">
-                    <h3>Payoneer</h3>
-                    <p>
-                      <strong>
-                        ${calculateTotals().netEarningsUSD.toFixed(2)}
-                      </strong>
-                    </p>
-                  </div>
+                <motion.div
+                  className="card"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <h2 className="section-title">Balance in USD</h2>
                   <div className="balances">
-
-                  {/* <h2 className="section-title">Agrani Bank limited</h2> */}
-                  <div className="balance-item">
-                    <h3>Balance in BDT</h3>
-                    <p>
-                      <strong>
-                        {" "}
-                        ৳{calculateTotals().netEarningsBDT.toFixed(2)}
-                      </strong>
-                    </p>
+                    <div className="balance-item">
+                      <h3>Payoneer</h3>
+                      <p>
+                        <strong>
+                          ${calculateTotals().netEarningsUSD.toFixed(2)}
+                        </strong>
+                      </p>
+                    </div>
+                    <div className="balances">
+                      {/* <h2 className="section-title">Agrani Bank limited</h2> */}
+                      <div className="balance-item">
+                        <h3>Balance in BDT</h3>
+                        <p>
+                          <strong>
+                            {" "}
+                            ৳{calculateTotals().netEarningsBDT.toFixed(2)}
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
 
-              <motion.div
-                className="card"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <h2 className="section-title">Summary</h2>
-                <p>
-                  Net Earnings:{" "}
-                  <strong>
-                    ${calculateTotals().netEarningsUSD.toFixed(2)}
-                  </strong>{" "}
-                  /
-                  <strong>
-                    {" "}
-                    ৳{calculateTotals().netEarningsBDT.toFixed(2)}
-                  </strong>
-                </p>
-              </motion.div>
+                <motion.div
+                  className="card"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <h2 className="section-title">Summary</h2>
+                  <p>
+                    Net Earnings:{" "}
+                    <strong>
+                      ${calculateTotals().netEarningsUSD.toFixed(2)}
+                    </strong>{" "}
+                    /
+                    <strong>
+                      {" "}
+                      ৳{calculateTotals().netEarningsBDT.toFixed(2)}
+                    </strong>
+                  </p>
+                </motion.div>
 
-              <motion.div
-                className="card"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <h2 className="section-title">Transaction History</h2>
-                {/* {entries.length === 0 ? (
+                <motion.div
+                  className="card"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <h2 className="section-title">Transaction History</h2>
+                  {/* {entries.length === 0 ? (
                   <p className="empty">No transactions recorded yet.</p>
                 ) : (
                   entries.map((entry) => (
@@ -469,7 +466,7 @@ function App() {
                     </motion.div>
                   ))
                 )} */}
-                {/* {entries.length === 0 ? (
+                  {/* {entries.length === 0 ? (
                   <p className="empty">No transactions recorded yet.</p>
                 ) : (
                   entries.map((entry) => (
@@ -508,49 +505,49 @@ function App() {
                     </motion.div>
                   ))
                 )} */}
-                <AnimatePresence>
-  {entries.length === 0 ? (
-    <p className="empty">No transactions recorded yet.</p>
-  ) : (
-    entries.map((entry) => (
-      <TransactionItem
-        key={entry._id}
-        entry={entry}
-        handleDelete={handleDelete}
-      />
-    ))
-  )}
-</AnimatePresence>
-              </motion.div>
-              <StickyModal isOpen={showModal} setIsOpen={setShowModal} />
+                  <AnimatePresence>
+                    {entries.length === 0 ? (
+                      <p className="empty">No transactions recorded yet.</p>
+                    ) : (
+                      entries.map((entry) => (
+                        <TransactionItem
+                          key={entry._id}
+                          entry={entry}
+                          handleDelete={handleDelete}
+                        />
+                      ))
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+                <StickyModal isOpen={showModal} setIsOpen={setShowModal} />
 
-      <button
-        className="sticky-cookie-btn"
-        onClick={() => setShowModal(true)}
-      >
-        Important Notice
-      </button>
-              <Footer />
-            </div>
-          }
-        </motion.div>
-      ) : (
-        <LoginForm
-          authMode={authMode}
-          setAuthMode={setAuthMode}
-          authData={authData}
-          setAuthData={setAuthData}
-          handleAuthSubmit={handleAuthSubmit}
-        />
-      )}
+                <button
+                  className="sticky-cookie-btn"
+                  onClick={() => setShowModal(true)}
+                >
+                  Important Notice
+                </button>
+                <Footer />
+              </div>
+            }
+          </motion.div>
+        ) : (
+          <LoginForm
+            authMode={authMode}
+            setAuthMode={setAuthMode}
+            authData={authData}
+            setAuthData={setAuthData}
+            handleAuthSubmit={handleAuthSubmit}
+          />
+        )}
 
-      {/* <motion.div
+        {/* <motion.div
       className="app"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     > */}
 
-      {/* </motion.div> */}
+        {/* </motion.div> */}
       </div>
     </>
   );

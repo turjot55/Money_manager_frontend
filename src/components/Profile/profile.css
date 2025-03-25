@@ -239,13 +239,14 @@
     }
 
     .toggle-content {
-        display: none;
+        font-size: 1rem;
+        padding: 1rem;
     }
 
     
   
     .hide-label {
-      font-size: 0.6rem;
+      font-size: 1rem;
     }
   }
   
