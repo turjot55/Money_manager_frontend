@@ -78,7 +78,7 @@ function App() {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://localhost:4000/entries", {
+    fetch("https://money-manager-ym1k.onrender.com/entries", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -86,7 +86,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => setEntries(data));
 
-    fetch("http://localhost:4000/convert?from=USD&to=BDT")
+    fetch("https://money-manager-ym1k.onrender.com/convert?from=USD&to=BDT")
       .then((res) => res.json())
       .then((data) => setConversionRate(data.rate || 117));
   }, [token]);
@@ -117,7 +117,7 @@ function App() {
     const url = authMode === "login" ? "login" : "register";
 
     try {
-      const res = await fetch(`http://localhost:4000/auth/${url}`, {
+      const res = await fetch(`https://money-manager-ym1k.onrender.com/auth/${url}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(authData),
@@ -164,7 +164,7 @@ function App() {
     
 
     try {
-      const res = await fetch("http://localhost:4000/entries", {
+      const res = await fetch("https://money-manager-ym1k.onrender.com/entries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -204,7 +204,7 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:4000/entries/${id}`, {
+      await fetch(`https://money-manager-ym1k.onrender.com/entries/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
