@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import {
-  FiBarChart,
+  
   FiChevronDown,
   FiChevronsRight,
-  FiDollarSign,
-  FiHome,
-  FiMonitor,
-  FiShoppingCart,
-  FiTag,
-  FiUsers,
+  
   FiLogOut,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
@@ -16,7 +11,7 @@ import "./profile.css";
 
 export const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+//   const [selected, setSelected] = useState("Dashboard");
 
   return (
     <motion.nav

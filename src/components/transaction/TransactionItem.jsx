@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // components/TransactionItem.jsx
 import { motion, useAnimate, usePresence } from "framer-motion";
 import { useEffect } from "react";

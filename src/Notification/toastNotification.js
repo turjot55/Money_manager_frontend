@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FiCheckSquare, FiX } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FiCheckSquare } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 // import "./notification.css"; // Make sure this CSS file includes styles for .slide-in-container and .slide-in-notification
 import './toast.css'

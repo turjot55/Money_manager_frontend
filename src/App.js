@@ -33,7 +33,7 @@ function App() {
     date: new Date().toISOString().slice(0, 16)
   });
 
-  const [balances, setBalances] = useState({
+  const [ setBalances] = useState({
     payoneer: { amount: 100, currency: "USD" },
     bank: { amount: 0, currency: "BDT" },
   });

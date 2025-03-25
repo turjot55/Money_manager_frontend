@@ -3,7 +3,7 @@ import React from "react";
 import "./login.css";
 import { motion } from "framer-motion";
 import {
-  IoMailOutline,
+  
   IoLockClosedOutline,
   IoEyeOutline,
   IoEyeOffOutline,
