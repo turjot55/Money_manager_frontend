@@ -1,7 +1,7 @@
-/* Wrapper layout */
+
 .example-wrapper {
     display: flex;
-    background-color: #eef2ff; /* bg-indigo-50 */
+    background-color: #eef2ff; 
   }
   
   .sidebar {
