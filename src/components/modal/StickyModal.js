@@ -27,7 +27,8 @@ const StickyModal = ({ isOpen, setIsOpen }) => {
               </div>
               <h3>One more thing!</h3>
               <p>
-                This Web application for tracking your Transaction from OutSourcing or Freelancing is for personal use only 
+                This Web application for tracking your Transaction from Different Platform 
+                Use It Only For Personal Use 
               </p>
               <div className="modal-buttons">
                 <button onClick={() => setIsOpen(false)} className="modal-cancel">
