@@ -146,36 +146,51 @@ function MainApp() {
 
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
+  
     const url = authMode === "login" ? "login" : "register";
-
+    const endpoint = `https://money-manager-ym1k.onrender.com/auth/${url}`;
+  
     try {
-      const res = await fetch(
-        `https://money-manager-ym1k.onrender.com/auth/${url}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(authData),
-        }
-      );
-
+      console.log("Sending authData:", authData); // Optional debug log
+  
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(authData),
+      });
+  
       const data = await res.json();
-
-      if (res.ok && data.token) {
-        addNotification("success", "Logged in successfully!");
-        setTimeout(() => {
-          localStorage.setItem("token", data.token);
-          setToken(data.token);
-          setAuthData({ username: "", password: "" });
-        }, 200);
+  
+      if (res.ok) {
+        if (authMode === "login") {
+          // ✅ Expecting token on login
+          if (data.token) {
+            addNotification("success", "✅ Logged in successfully!");
+  
+            setTimeout(() => {
+              localStorage.setItem("token", data.token);
+              setToken(data.token);
+              setAuthData({ username: "", password: "", email: "" });
+            }, 200);
+          } else {
+            addNotification("error", data.error || "Login failed.");
+          }
+        } else {
+          // ✅ Register response does not return token
+          addNotification("success", data.message || "🎉 Registered successfully. Please verify your email.");
+          setAuthData({ username: "", password: "", email: "" });
+        }
       } else {
-        addNotification("error", data.error || "Login failed");
+        addNotification("error", data.error || "Something went wrong.");
       }
     } catch (err) {
-      console.error("Login error:", err);
-      // setNotifications({ type: "error", message: "Something went wrong." });
-      addNotification("error", "Something went wrong.");
+      console.error("Auth error:", err);
+      addNotification("error", "❌ Something went wrong. Please try again.");
     }
   };
+  
 
   // const logout = () => {
   //   setToken("");
