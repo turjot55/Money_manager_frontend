@@ -1,7 +1,6 @@
 
 .sidebar-wrapper {
     display: flex;
-    background-color: #eef2ff; 
   }
   
   .sidebar {
@@ -113,7 +112,7 @@
     background-color: #f1f5f9;
   }
   
-  .logo-box {
+  .logo-user {
     display: grid;
     width: 40px;
     height: 40px;

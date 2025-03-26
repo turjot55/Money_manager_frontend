@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   
-  FiChevronDown,
+  
   FiChevronsRight,
   
   FiLogOut,
 } from "react-icons/fi";
-import { motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import "./profile.css";
 
 export const SidebarWithProfile = ({ currentUser, logout }) => {
@@ -115,10 +115,10 @@ const TitleSection = ({ open, currentUser, logout }) => {
             className="title-text"
           >
             <span className="title-main">{currentUser || "User"}</span>
-            <span className="title-sub">Money Manager</span>
+            <span className="title-sub">Hello, <strong style={{color: "red"}}>{currentUser}</strong> Welcome to Money Management Tool </span>
           </motion.div>
         )}
-        {open && <FiChevronDown className="chevron-down" />}
+        {/* {open && <FiChevronDown className="chevron-down" />} */}
       </div>
       <div className="logout-section">
         {open ? (
@@ -135,23 +135,33 @@ const TitleSection = ({ open, currentUser, logout }) => {
   );
 };
 
-const Logo = () => {
+// const Logo = () => {
+//   return (
+//     <motion.div layout className="logo-box">
+//       <svg
+//         width="24"
+//         height="auto"
+//         viewBox="0 0 50 39"
+//         fill="none"
+//         xmlns="http://www.w3.org/2000/svg"
+//         className="logo-icon"
+//       >
+//         <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" stopColor="#000000"></path>
+//         <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" stopColor="#000000"></path>
+//       </svg>
+      
+//     </motion.div>
+//   );
+// };
+
+const Logo = ({ currentUser }) => {
   return (
-    <motion.div layout className="logo-box">
-      <svg
-        width="24"
-        height="auto"
-        viewBox="0 0 50 39"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="logo-icon"
-      >
-        <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" stopColor="#000000"></path>
-        <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" stopColor="#000000"></path>
-      </svg>
+    <motion.div layout className="logo-user" style={{color: "white"}}>
+      {currentUser ? currentUser.charAt(0).toUpperCase() : "User"}
     </motion.div>
   );
 };
+
 
 const ToggleClose = ({ open, setOpen }) => {
     const isMobile = window.innerWidth < 768;

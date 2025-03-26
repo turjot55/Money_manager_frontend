@@ -13,6 +13,8 @@ import {
 // import {  IoEyeOffOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import Footer from "../components/footer";
+import { IoMailOutline } from "react-icons/io5";
+
 
 const LoginForm = ({
   authMode,
@@ -33,7 +35,26 @@ const LoginForm = ({
 
       {/* Login or Register Form */}
       <form onSubmit={handleAuthSubmit}>
-        <div className="email">
+      
+  <div className="email">
+    <label htmlFor="email">Email Address</label>
+    <div className="sec-2">
+      <IoMailOutline/>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        value={authData.email || ""}
+        onChange={(e) =>
+          setAuthData({ ...authData, email: e.target.value })
+        }
+        required
+      />
+    </div>
+  </div>
+
+
+        <div className="user">
           <label htmlFor="username">User Name</label>
           <div className="sec-2">
             <FaUser />
