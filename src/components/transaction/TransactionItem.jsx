@@ -15,7 +15,7 @@ const TransactionItem = ({ entry, handleDelete }) => {
       };
       exit();
     }
-  }, [isPresent]);
+  }, [isPresent, animate, scope, safeToRemove]);
 
   return (
     <motion.div
