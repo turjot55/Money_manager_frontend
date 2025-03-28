@@ -17,10 +17,27 @@ const MeetingCalender = ({
   currentUser,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="main-bg">
+      <Logo currentUser={currentUser} />
       <div className="calendar-vertical-wrapper">
-        <Logo currentUser={currentUser} />
+        <div className="user-header">
+          <div className="notification">
+            <div className="notiglow"></div>
+            <div className="notiborderglow"></div>
+            <div className="notititle">Welcome, {currentUser}</div>
+            <div className="notibody">
+              You’re in the Calendar Beta – enjoy early features!
+            </div>
+          </div>
+          <button className="home" onClick={() => navigate("/")}>
+            Home
+          </button>
+        </div>
+
+        
+        
         <h2 style={{ textAlign: "center", color: "#333" }}>
           Welcome,{" "}
           <span
@@ -66,7 +83,6 @@ const MeetingCalender = ({
 export default MeetingCalender;
 
 const Logo = () => {
-  const navigate = useNavigate();
   return (
     <motion.div
       layout
@@ -77,9 +93,6 @@ const Logo = () => {
         transform: "translateZ(0)",
       }}
     >
-      <button className="home" onClick={() => navigate("/")}>
-        Home
-      </button>
       <svg
         width="80"
         height="80"

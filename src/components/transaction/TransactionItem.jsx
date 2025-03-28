@@ -47,6 +47,7 @@ const TransactionItem = ({ entry, handleDelete }) => {
       </p>
       <button
         className="button-delete"
+        style={{cursor: "pointer"}}
         onClick={() => handleDelete(entry._id)}
       >
         🗑 Delete
