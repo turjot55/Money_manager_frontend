@@ -46,6 +46,7 @@
   }
   
   .sidebar-option {
+    margin-bottom: 630px;
     display: flex;
     height: 40px;
     width: 100%;

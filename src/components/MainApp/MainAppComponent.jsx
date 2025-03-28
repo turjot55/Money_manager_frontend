@@ -662,6 +662,7 @@ const Logo = () => {
             filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))", // ✅ 3D shadow
             transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)", // ✅ 3D tilt
             transition: "transform 0.3s ease, filter 0.3s ease",
+            
           }}
         >
           <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" fill="black" />
@@ -669,7 +670,7 @@ const Logo = () => {
         </svg>
         <h2
           style={{
-            fontSize: "1.8rem",
+            
             fontWeight: "900",
             color: "#111827",
             textShadow: "2px 2px 4px rgba(0,0,0,0.2)", // ✅ title shadow

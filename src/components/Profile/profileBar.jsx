@@ -3,15 +3,21 @@ import {
   
   
   FiChevronsRight,
+  FiCalendar,
   
   FiLogOut,
 } from "react-icons/fi";
 import {  motion } from "framer-motion";
 import "./profile.css";
+import MeetingCalender from "../Calender/MeetingCalender";
+import { useNavigate } from 'react-router-dom';
 
 export const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
 //   const [selected, setSelected] = useState("Dashboard");
+const navigate = useNavigate()
+const [date, setDate] = useState(new Date());
+  const [selectRange, setSelectRange] = useState(false);
 
 
 // inside SidebarWithProfile component
@@ -48,16 +54,47 @@ useEffect(() => {
       }}
     >
       <TitleSection open={open} currentUser={currentUser} logout={logout} />
+      <Option
+    Icon={FiCalendar}
+    title="Calendar"
+    selected={null}
+    setSelected={() => navigate("/calendar")}
+    open={open}
+  />
 
-      {/* <div className="sidebar-options">
-        <Option Icon={FiHome} title="Dashboard" {...{ selected, setSelected, open }} />
-        <Option Icon={FiDollarSign} title="Sales" notifs={3} {...{ selected, setSelected, open }} />
-        <Option Icon={FiMonitor} title="View Site" {...{ selected, setSelected, open }} />
-        <Option Icon={FiShoppingCart} title="Products" {...{ selected, setSelected, open }} />
-        <Option Icon={FiTag} title="Tags" {...{ selected, setSelected, open }} />
-        <Option Icon={FiBarChart} title="Analytics" {...{ selected, setSelected, open }} />
-        <Option Icon={FiUsers} title="Members" {...{ selected, setSelected, open }} />
-      </div> */}
+       <div className="sidebar-options">
+         {/* <div className="App" style={{ display: "grid", placeItems: "center" }}> */}
+        
+
+
+          
+         
+         <div className="calendar-sidebar">
+  <div className="calendar-icon-label">
+  {/* <Option
+  Icon={FiCalendar}
+  title="Calendar"
+  selected={null}
+  setSelected={() => navigate("/calendar")}
+  open={open}
+/> */}
+  </div>
+  {/* <div style={{ marginTop: "1rem" }}>
+    <MeetingCalender
+      date={date}
+      setDate={setDate}
+      selectRange={selectRange}
+      setSelectRange={setSelectRange}
+    />
+  </div> */}
+  
+
+</div>
+
+{/* </div> */}
+        
+         {/* <App/> */}
+      </div> 
 
       <ToggleClose open={open} setOpen={setOpen} />
     </motion.nav>
@@ -65,41 +102,41 @@ useEffect(() => {
   );
 };
 
-// const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
-//   return (
-//     <motion.button
-//       layout
-//       onClick={() => setSelected(title)}
-//       className={`sidebar-option ${selected === title ? "selected" : ""}`}
-//     >
-//       <motion.div layout className="icon-container">
-//         <Icon />
-//       </motion.div>
-//       {open && (
-//         <motion.span
-//           layout
-//           initial={{ opacity: 0, y: 12 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ delay: 0.125 }}
-//           className="option-title"
-//         >
-//           {title}
-//         </motion.span>
-//       )}
+const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
+  return (
+    <motion.button
+      layout
+      onClick={() => setSelected(title)}
+      className={`sidebar-option ${selected === title ? "selected" : ""}`}
+    >
+      <motion.div layout className="icon-container">
+        <Icon />
+      </motion.div>
+      {open && (
+        <motion.span
+          layout
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.125 }}
+          className="option-title"
+        >
+          {title}
+        </motion.span>
+      )}
 
-//       {notifs && open && (
-//         <motion.span
-//           initial={{ scale: 0, opacity: 0 }}
-//           animate={{ opacity: 1, scale: 1 }}
-//           transition={{ delay: 0.5 }}
-//           className="notif-badge"
-//         >
-//           {notifs}
-//         </motion.span>
-//       )}
-//     </motion.button>
-//   );
-// };
+      {notifs && open && (
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="notif-badge"
+        >
+          {notifs}
+        </motion.span>
+      )}
+    </motion.button>
+  );
+};
 
 const TitleSection = ({ open, currentUser, logout }) => {
   return (
@@ -195,6 +232,42 @@ const ToggleClose = ({ open, setOpen }) => {
       
     );
   };
+
+  // const Option = ({ Icon, title, onClick, open, notifs }) => {
+  //   return (
+  //     <motion.button
+  //       layout
+  //       onClick={onClick}
+  //       className="sidebar-option"
+  //     >
+  //       <motion.div layout className="icon-container">
+  //         <Icon />
+  //       </motion.div>
+  //       {open && (
+  //         <motion.span
+  //           layout
+  //           initial={{ opacity: 0, y: 12 }}
+  //           animate={{ opacity: 1, y: 0 }}
+  //           transition={{ delay: 0.125 }}
+  //           className="option-title"
+  //         >
+  //           {title}
+  //         </motion.span>
+  //       )}
+  //       {notifs && open && (
+  //         <motion.span
+  //           initial={{ scale: 0, opacity: 0 }}
+  //           animate={{ opacity: 1, scale: 1 }}
+  //           transition={{ delay: 0.5 }}
+  //           className="notif-badge"
+  //         >
+  //           {notifs}
+  //         </motion.span>
+  //       )}
+  //     </motion.button>
+  //   );
+  // };
+  
   
   
   

@@ -1,0 +1,222 @@
+/* Root layout wrapper */
+.calendar-wrapper-horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  .calendar-vertical-wrapper {
+    max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ✅ Center everything horizontally */
+  justify-content: center;
+  gap: 2rem;
+  }
+
+  .calendar-content-right {
+    align-items: flex-start;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1.5rem;
+
+  /* ✅ Make sure there's NO margin-left auto */
+  margin-left: 0;
+  }
+  
+  /* Left side - calendar content */
+  .calendar-content-left {
+    align-items: flex-start;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+  
+  /* Right side - logo aligned to the right */
+  .logo-container-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+  
+  .logo-container-right .logo {
+    max-width: 200px;
+  }
+  
+  /* Responsive layout for mobile */
+  @media (max-width: 768px) {
+    .calendar-wrapper-horizontal {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  
+    .calendar-content-left,
+    .logo-container-right {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .logo-container-right {
+      padding-top: 0;
+      margin-bottom: 1rem;
+    }
+  }
+  
+ .text-center {
+    text-align: center;
+ }
+
+  /* Calendar container box */
+  .calendar-inner {
+    background-color: #1f2937;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #374151;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Calendar toggle buttons */
+  .calendar-button {
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .calendar-button:hover {
+    transform: scale(1.05);
+  }
+  
+  .calendar-button-active {
+    background-color: #e5e7eb;
+    color: #111827;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .calendar-button-inactive {
+    color: #d1d5db;
+    background: transparent;
+  }
+  
+  .calendar-button-inactive:hover {
+    background-color: #374151;
+  }
+  
+  
+  
+  .date-number {
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+  }
+  
+  .date-text {
+    color: #9ca3af;
+  }
+  
+  .close-button {
+    color: #9ca3af;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .close-button:hover {
+    background-color: #374151;
+    color: #ffffff;
+  }
+  
+  /* Time slots grid */
+  .sidebar-time-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+  }
+  
+  .time-slot-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background-color: #374151;
+    color: #d1d5db;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .time-slot-btn:hover {
+    background-color: #4b5563;
+    transform: scale(1.02);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  }
+  
+  .time-slot-btn.active {
+    background-color: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Dot for events */
+  .event-dot {
+    height: 0.25rem;
+    width: 0.25rem;
+    background-color: #3b82f6;
+    border-radius: 9999px;
+    margin: 0 auto;
+  }
+  
+  /* FullCalendar styling overrides */
+  /* .fc .fc-daygrid-day-number,
+  .fc .fc-col-header-cell-cushion,
+  .fc .fc-timegrid-axis-cushion,
+  .fc .fc-toolbar-title,
+  .fc-scrollgrid-section {
+    color: #ffffff !important;
+  } */
+  
+  /* Button styling */
+  /* button {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    cursor: pointer;
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+  } */
+  
+  /* button:hover {
+    border: 1px solid white;
+  }
+  
+  button:active {
+    box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+  } */
+  
