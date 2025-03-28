@@ -1,103 +1,63 @@
 import React, { useState, useEffect } from "react";
-import {
-  
-  
-  FiChevronsRight,
-  FiCalendar,
-  
-  FiLogOut,
-} from "react-icons/fi";
-import {  motion } from "framer-motion";
+import { FiChevronsRight, FiCalendar, FiLogOut } from "react-icons/fi";
+import { motion } from "framer-motion";
 import "./profile.css";
 import MeetingCalender from "../Calender/MeetingCalender";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
 
-const navigate = useNavigate()
-const [date, setDate] = useState(new Date());
+  const navigate = useNavigate();
+  const [date, setDate] = useState(new Date());
   const [selectRange, setSelectRange] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    };
 
+    handleResize();
 
-useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth < 768) {
-      setOpen(false);  
-    } else {
-      setOpen(true);   
-    }
-  };
+    window.addEventListener("resize", handleResize);
 
-  
-  handleResize();
-
-  
-  window.addEventListener("resize", handleResize);
-
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
-
-  
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    
     <div className="sidebar-wrapper ">
+      <motion.nav
+        layout
+        className="sidebar"
+        style={{
+          width: open
+            ? window.innerWidth < 480
+              ? "140px"
+              : "225px"
+            : "fit-content",
+        }}
+      >
+        <TitleSection open={open} currentUser={currentUser} logout={logout} />
+        <Option
+          Icon={FiCalendar}
+          title="Calendar"
+          selected={null}
+          setSelected={() => navigate("/calendar")}
+          open={open}
+        />
 
-    
-    <motion.nav
-      layout
-      className="sidebar"
-      style={{
-        width: open ? (window.innerWidth < 480 ? "140px" : "225px") : "fit-content"
-      }}
-    >
-      <TitleSection open={open} currentUser={currentUser} logout={logout} />
-      <Option
-    Icon={FiCalendar}
-    title="Calendar"
-    selected={null}
-    setSelected={() => navigate("/calendar")}
-    open={open}
-  />
+        <div className="sidebar-options">
+          <div className="calendar-sidebar">
+            <div className="calendar-icon-label"></div>
+          </div>
+        </div>
 
-       <div className="sidebar-options">
-         {/* <div className="App" style={{ display: "grid", placeItems: "center" }}> */}
-        
-
-
-          
-         
-         <div className="calendar-sidebar">
-  <div className="calendar-icon-label">
-  {/* <Option
-  Icon={FiCalendar}
-  title="Calendar"
-  selected={null}
-  setSelected={() => navigate("/calendar")}
-  open={open}
-/> */}
-  </div>
-  {/* <div style={{ marginTop: "1rem" }}>
-    <MeetingCalender
-      date={date}
-      setDate={setDate}
-      selectRange={selectRange}
-      setSelectRange={setSelectRange}
-    />
-  </div> */}
-  
-
-</div>
-
-{/* </div> */}
-        
-         {/* <App/> */}
-      </div> 
-
-      <ToggleClose open={open} setOpen={setOpen} />
-    </motion.nav>
+        <ToggleClose open={open} setOpen={setOpen} />
+      </motion.nav>
     </div>
   );
 };
@@ -154,10 +114,12 @@ const TitleSection = ({ open, currentUser, logout }) => {
             className="title-text"
           >
             <span className="title-main">{currentUser || "User"}</span>
-            <span className="title-sub">Hello, <strong style={{color: "red"}}>{currentUser}</strong> Welcome to Money Management Tool </span>
+            <span className="title-sub">
+              Hello, <strong style={{ color: "red" }}>{currentUser}</strong>{" "}
+              Welcome to Money Management Tool{" "}
+            </span>
           </motion.div>
         )}
-        {/* {open && <FiChevronDown className="chevron-down" />} */}
       </div>
       <div className="logout-section">
         {open ? (
@@ -174,52 +136,40 @@ const TitleSection = ({ open, currentUser, logout }) => {
   );
 };
 
-
-
 const Logo = ({ currentUser }) => {
   return (
-    <motion.div layout className="logo-user" style={{color: "white"}}>
+    <motion.div layout className="logo-user" style={{ color: "white" }}>
       {currentUser ? currentUser.charAt(0).toUpperCase() : "User"}
     </motion.div>
   );
 };
 
-
 const ToggleClose = ({ open, setOpen }) => {
-    const isMobile = window.innerWidth < 768;
-  
-    const handleToggle = () => {
-      setOpen((prev) => !prev);
-    };
-  
-    return (
-      <motion.button
-        layout
-        onClick={handleToggle}
-        className="toggle-button"
-      >
-        <div className="toggle-content">
-          <motion.div layout className="toggle-icon">
-            <FiChevronsRight className={`chevron-icon ${open ? "rotated" : ""}`} />
-          </motion.div>
-  
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="hide-label"
-          >
-            {open ? "Hide" : isMobile ? "" : ""}
-          </motion.span>
-        </div>
-      </motion.button>
-      
-    );
+  const isMobile = window.innerWidth < 768;
+
+  const handleToggle = () => {
+    setOpen((prev) => !prev);
   };
 
-  
-  
-  
-  
+  return (
+    <motion.button layout onClick={handleToggle} className="toggle-button">
+      <div className="toggle-content">
+        <motion.div layout className="toggle-icon">
+          <FiChevronsRight
+            className={`chevron-icon ${open ? "rotated" : ""}`}
+          />
+        </motion.div>
 
+        <motion.span
+          layout
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.125 }}
+          className="hide-label"
+        >
+          {open ? "Hide" : isMobile ? "" : ""}
+        </motion.span>
+      </div>
+    </motion.button>
+  );
+};

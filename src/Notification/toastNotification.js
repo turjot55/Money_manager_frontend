@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FiCheckSquare } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
-import './toast.css'
+import './toast.css';
 
 const SlideInNotifications = ({ notifications, removeNotification }) => {
   return (

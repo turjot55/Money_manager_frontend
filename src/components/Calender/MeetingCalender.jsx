@@ -1,28 +1,43 @@
-
 import React from "react";
 import Actions from "./Partial/Action";
 import CalendarComponent from "./Partial/Calender";
 import Footer from "../footer";
 import { motion } from "framer-motion";
-import { useNavigate } from 'react-router-dom';
-import './button.css'
-import './MeetingCalender.css'
+import { useNavigate } from "react-router-dom";
+import "./button.css";
+import "./MeetingCalender.css";
 import { useState } from "react";
 import StickyModal from "../modal/StickyModal";
 
-
-const MeetingCalender = ({ date, setDate, selectRange, setSelectRange, currentUser }) => {
+const MeetingCalender = ({
+  date,
+  setDate,
+  selectRange,
+  setSelectRange,
+  currentUser,
+}) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="main-bg">
       <div className="calendar-vertical-wrapper">
-       
         <Logo currentUser={currentUser} />
         <h2 style={{ textAlign: "center", color: "#333" }}>
-          Welcome, <span style={{ fontWeight: "bold", color: "red"  , fontSize: "1rem" , textWrap: "wrap"}}>{currentUser}  This is a test version of the calendar. Soon, you’ll be able to select meeting durations, auto-generate Google Meet links, and enjoy more powerful features.</span> 👋
+          Welcome,{" "}
+          <span
+            style={{
+              fontWeight: "bold",
+              color: "red",
+              fontSize: "1rem",
+              textWrap: "wrap",
+            }}
+          >
+            {currentUser} This is a test version of the calendar. Soon, you’ll
+            be able to select meeting durations, auto-generate Google Meet
+            links, and enjoy more powerful features.
+          </span>{" "}
+          👋
         </h2>
 
-        
         <CalendarComponent
           setDate={setDate}
           date={date}
@@ -36,19 +51,17 @@ const MeetingCalender = ({ date, setDate, selectRange, setSelectRange, currentUs
         />
         <StickyModal isOpen={showModal} setIsOpen={setShowModal} />
 
-<button
-  className="sticky-cookie-btn"
-  onClick={() => setShowModal(true)}
->
-  Important Notice
-</button>
+        <button
+          className="sticky-cookie-btn"
+          onClick={() => setShowModal(true)}
+        >
+          Important Notice
+        </button>
         <Footer />
       </div>
     </div>
   );
 };
-
-
 
 export default MeetingCalender;
 
@@ -64,7 +77,7 @@ const Logo = () => {
         transform: "translateZ(0)",
       }}
     >
-      <button className="home" onClick={() => navigate('/')}>
+      <button className="home" onClick={() => navigate("/")}>
         Home
       </button>
       <svg
@@ -80,15 +93,21 @@ const Logo = () => {
           transition: "transform 0.3s ease, filter 0.3s ease",
         }}
       >
-        <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" fill="black" />
-        <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" fill="black" />
+        <path
+          d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
+          fill="black"
+        />
+        <path
+          d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
+          fill="black"
+        />
       </svg>
       <h2
         style={{
           fontWeight: "900",
           color: "#111827",
           textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
-          cursor: "pointer"
+          cursor: "pointer",
         }}
       >
         Money Management Tool

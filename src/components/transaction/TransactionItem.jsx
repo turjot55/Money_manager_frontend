@@ -24,7 +24,7 @@ const TransactionItem = ({ entry, handleDelete }) => {
       drag="y"
       dragConstraints={{ top: 0, bottom: 0 }}
       dragElastic={0.2}
-      exit={{}} // we handle exit with useAnimate
+      exit={{}} 
       className="entry draggable-card"
     >
       <p>

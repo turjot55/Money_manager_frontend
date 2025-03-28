@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import '../../App.css';
+import "../../App.css";
 import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 
@@ -13,16 +13,15 @@ import StickyModal from "../modal/StickyModal";
 import TransactionItem from "../transaction/TransactionItem";
 import { AnimatePresence } from "framer-motion";
 
-import  SidebarWithProfile  from "../Profile/profileBar";
+import SidebarWithProfile from "../Profile/profileBar";
 
-
-import LoginForm from '../../Login/loginForm'
-import SlideInNotifications from '../../Notification/toastNotification'
+import LoginForm from "../../Login/loginForm";
+import SlideInNotifications from "../../Notification/toastNotification";
 
 function MainApp() {
   const [entries, setEntries] = useState([]);
   const [conversionRate, setConversionRate] = useState(85);
- 
+
   const [formData, setFormData] = useState({
     platform: "",
     income: "",
@@ -38,21 +37,20 @@ function MainApp() {
   });
 
   const [authMode, setAuthMode] = useState("login");
-  
+
   const [authData, setAuthData] = useState({
     username: "",
     password: "",
-    email: "", 
+    email: "",
   });
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [notification, setNotification] = useState({ type: "", message: "" });
-  
+
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  
+
   const [currentUser, setCurrentUser] = useState("");
 
- 
   const logout = () => {
     setToken("");
     localStorage.removeItem("token");
@@ -70,27 +68,26 @@ function MainApp() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
-  
+
     if (window.location.pathname === "/verify" && token) {
-      fetch(`https://money-manager-ym1k.onrender.com/auth/verify-email?token=${token}`)
-        .then(res => res.json())
-        .then(data => {
+      fetch(
+        `https://money-manager-ym1k.onrender.com/auth/verify-email?token=${token}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
           if (data.message) {
-            alert("✅ " + data.message); 
-            window.location.href = "/"; 
+            alert("✅ " + data.message);
+            window.location.href = "/";
           } else {
             alert("❌ Verification failed. Token may be invalid or expired.");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error("Verification error:", err);
           alert("❌ Something went wrong.");
         });
     }
   }, []);
-  
-
-  
 
   useEffect(() => {
     if (!token) return;
@@ -131,13 +128,13 @@ function MainApp() {
 
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
-  
+
     const url = authMode === "login" ? "login" : "register";
     const endpoint = `https://money-manager-ym1k.onrender.com/auth/${url}`;
-  
+
     try {
-      console.log("Sending authData:", authData); 
-  
+      console.log("Sending authData:", authData);
+
       const res = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -145,15 +142,14 @@ function MainApp() {
         },
         body: JSON.stringify(authData),
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok) {
         if (authMode === "login") {
-          
           if (data.token) {
             addNotification("success", "✅ Logged in successfully!");
-  
+
             setTimeout(() => {
               localStorage.setItem("token", data.token);
               setToken(data.token);
@@ -163,8 +159,11 @@ function MainApp() {
             addNotification("error", data.error || "Login failed.");
           }
         } else {
-          
-          addNotification("success", data.message || "🎉 Registered successfully. Please verify your email.");
+          addNotification(
+            "success",
+            data.message ||
+              "🎉 Registered successfully. Please verify your email."
+          );
           setAuthData({ username: "", password: "", email: "" });
         }
       } else {
@@ -175,18 +174,15 @@ function MainApp() {
       addNotification("error", "❌ Something went wrong. Please try again.");
     }
   };
-  
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newEntry = {
       ...formData,
       income: parseFloat(formData.income),
       fee: parseFloat(formData.fee),
-      date: new Date().toISOString(), 
+      date: new Date().toISOString(),
     };
 
     try {
@@ -205,7 +201,6 @@ function MainApp() {
       const saved = await res.json();
       setEntries([saved, ...entries]);
 
-      
       setBalances((prev) => {
         const updated = { ...prev };
 
@@ -224,7 +219,7 @@ function MainApp() {
         incomeCurrency: "USD",
         fee: "",
         feeCurrency: "USD",
-        date: new Date().toISOString().substring(0, 10), 
+        date: new Date().toISOString().substring(0, 10),
       });
     } catch (err) {
       console.error("Failed to save entry:", err);
@@ -269,8 +264,6 @@ function MainApp() {
     };
   };
 
-  
-
   return (
     <>
       <div className="top-logo-wrapper">
@@ -278,7 +271,7 @@ function MainApp() {
       </div>
       <div className="app-wrapper">
         {token && (
-            <SidebarWithProfile currentUser={currentUser} logout={logout} />
+          <SidebarWithProfile currentUser={currentUser} logout={logout} />
         )}
 
         <div className="app-content">{/* ✅ Your existing content here */}</div>
@@ -297,19 +290,6 @@ function MainApp() {
           >
             {
               <div className="container">
-                {/* <div className="topbar">
-              
-                <div className="profile-info">
-                  <div className="profile-avatar-circle">
-                    {currentUser?.charAt(0).toUpperCase()}
-                  </div>
-                  <span>{currentUser}</span>
-                </div>
-                <button className="dotted-button" onClick={logout}>🔓 Logout</button>
-              </div> */}
-
-                {/* <h1 className="header">Money Management Tool</h1> */}
-
                 <motion.div
                   className="card"
                   initial={{ y: 20, opacity: 0 }}
@@ -411,7 +391,6 @@ function MainApp() {
                       </p>
                     </div>
                     <div className="balances">
-                      {/* <h2 className="section-title">Agrani Bank limited</h2> */}
                       <div className="balance-item">
                         <h3>Balance in BDT</h3>
                         <p>
@@ -450,82 +429,7 @@ function MainApp() {
                   animate={{ y: 0, opacity: 1 }}
                 >
                   <h2 className="section-title">Transaction History</h2>
-                  {/* {entries.length === 0 ? (
-                  <p className="empty">No transactions recorded yet.</p>
-                ) : (
-                  entries.map((entry) => (
-                    <motion.div
-                      key={entry._id}
-                      className="entry"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    >
-                      <p>
-                        <strong>{entry.platform}</strong> – Income:{" "}
-                        <strong>
-                          {entry.income}
-                          {entry.incomeCurrency}
-                        </strong>
-                        {entry.fee && (
-                          <span className="fee">
-                            {" "}
-                            (Fee: {entry.fee}
-                            {entry.feeCurrency})
-                          </span>
-                        )}
-                        <br />
-                        <span className="entry-date">
-                          {new Date(entry.date).toLocaleString()}
-                        </span>
-                      </p>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDelete(entry._id)}
-                      >
-                        🗑 Delete
-                      </button>
-                    </motion.div>
-                  ))
-                )} */}
-                  {/* {entries.length === 0 ? (
-                  <p className="empty">No transactions recorded yet.</p>
-                ) : (
-                  entries.map((entry) => (
-                    <motion.div
-                      key={entry._id}
-                      layout
-                      drag="y"
-                      dragConstraints={{ top: 0, bottom: 0 }}
-                      dragElastic={0.2}
-                      className="entry draggable-card"
-                    >
-                      <p>
-                        <strong>{entry.platform}</strong> – Income:{" "}
-                        <strong>
-                          {entry.income}
-                          {entry.incomeCurrency}
-                        </strong>
-                        {entry.fee && (
-                          <span className="fee">
-                            {" "}
-                            (Fee: {entry.fee}
-                            {entry.feeCurrency})
-                          </span>
-                        )}
-                        <br />
-                        <span className="entry-date">
-                          {new Date(entry.date).toLocaleString()}
-                        </span>
-                      </p>
-                      <button
-                        className="button-delete"
-                        onClick={() => handleDelete(entry._id)}
-                      >
-                        🗑 Delete
-                      </button>
-                    </motion.div>
-                  ))
-                )} */}
+
                   <AnimatePresence>
                     {entries.length === 0 ? (
                       <p className="empty">No transactions recorded yet.</p>
@@ -561,14 +465,6 @@ function MainApp() {
             handleAuthSubmit={handleAuthSubmit}
           />
         )}
-
-        {/* <motion.div
-      className="app"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    > */}
-
-        {/* </motion.div> */}
       </div>
     </>
   );
@@ -576,47 +472,48 @@ function MainApp() {
 
 export default MainApp;
 
-
 const Logo = () => {
-    return (
-      <motion.div
-        layout
-        className="logo"
+  return (
+    <motion.div
+      layout
+      className="logo"
+      style={{
+        textAlign: "center",
+        marginBottom: "2rem",
+        transform: "translateZ(0)",
+      }}
+    >
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 50 39"
+        fill="black"
+        xmlns="http://www.w3.org/2000/svg"
+        className="logo-icon"
         style={{
-          textAlign: "center",
-          marginBottom: "2rem",
-          transform: "translateZ(0)", 
+          filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))",
+          transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)",
+          transition: "transform 0.3s ease, filter 0.3s ease",
         }}
       >
-        <svg
-          width="80"
-          height="80"
-          viewBox="0 0 50 39"
+        <path
+          d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
           fill="black"
-          xmlns="http://www.w3.org/2000/svg"
-          className="logo-icon"
-          style={{
-            filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))", 
-            transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)", 
-            transition: "transform 0.3s ease, filter 0.3s ease",
-            
-          }}
-        >
-          <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" fill="black" />
-          <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" fill="black" />
-        </svg>
-        <h2
-          style={{
-            
-            fontWeight: "900",
-            color: "#111827",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.2)", 
-            
-          }}
-        >
-          Money Management Tool
-        </h2>
-      </motion.div>
-    );
-  };
-  
+        />
+        <path
+          d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
+          fill="black"
+        />
+      </svg>
+      <h2
+        style={{
+          fontWeight: "900",
+          color: "#111827",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+        }}
+      >
+        Money Management Tool
+      </h2>
+    </motion.div>
+  );
+};

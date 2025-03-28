@@ -3,18 +3,14 @@ import React from "react";
 import "./login.css";
 import { motion } from "framer-motion";
 import {
-  
   IoLockClosedOutline,
   IoEyeOutline,
   IoEyeOffOutline,
-  
-  
 } from "react-icons/io5";
 
 import { FaUser } from "react-icons/fa";
 import Footer from "../components/footer";
 import { IoMailOutline } from "react-icons/io5";
-
 
 const LoginForm = ({
   authMode,
@@ -33,26 +29,23 @@ const LoginForm = ({
     >
       <div className="logo">Money Manager</div>
 
-      {/* Login or Register Form */}
       <form onSubmit={handleAuthSubmit}>
-      
-  <div className="email">
-    <label htmlFor="email">Email Address</label>
-    <div className="sec-2">
-      <IoMailOutline/>
-      <input
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        value={authData.email || ""}
-        onChange={(e) =>
-          setAuthData({ ...authData, email: e.target.value })
-        }
-        required
-      />
-    </div>
-  </div>
-
+        <div className="email">
+          <label htmlFor="email">Email Address</label>
+          <div className="sec-2">
+            <IoMailOutline />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={authData.email || ""}
+              onChange={(e) =>
+                setAuthData({ ...authData, email: e.target.value })
+              }
+              required
+            />
+          </div>
+        </div>
 
         <div className="user">
           <label htmlFor="username">User Name</label>
@@ -76,7 +69,7 @@ const LoginForm = ({
           <div className="sec-2">
             <IoLockClosedOutline />
             <input
-              type={showPassword ? "text" : "password"} 
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="············"
               value={authData.password}
@@ -107,7 +100,6 @@ const LoginForm = ({
         </button>
       </form>
 
-      {/* Footer Toggle */}
       <div className="footer">
         <span
           onClick={() =>
@@ -118,7 +110,7 @@ const LoginForm = ({
         </span>
         <span>Forgot Password?</span>
       </div>
-      <Footer/>
+      <Footer />
     </motion.div>
   );
 };
