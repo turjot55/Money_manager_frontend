@@ -13,7 +13,7 @@ import StickyModal from "../modal/StickyModal";
 import TransactionItem from "../transaction/TransactionItem";
 import { AnimatePresence } from "framer-motion";
 
-import { SidebarWithProfile } from "../Profile/profileBar";
+import  SidebarWithProfile  from "../Profile/profileBar";
 
 
 import LoginForm from '../../Login/loginForm'
@@ -76,8 +76,8 @@ function MainApp() {
         .then(res => res.json())
         .then(data => {
           if (data.message) {
-            alert("✅ " + data.message); // You can replace with toast
-            window.location.href = "/"; // redirect to home or login
+            alert("✅ " + data.message); 
+            window.location.href = "/"; 
           } else {
             alert("❌ Verification failed. Token may be invalid or expired.");
           }
@@ -90,12 +90,7 @@ function MainApp() {
   }, []);
   
 
-  // useEffect(() => {
-  //   if (notification.message) {
-  //     const timeout = setTimeout(() => setNotification({ type: "", message: "" }), 3000);
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [notification]);
+  
 
   useEffect(() => {
     if (!token) return;
@@ -141,7 +136,7 @@ function MainApp() {
     const endpoint = `https://money-manager-ym1k.onrender.com/auth/${url}`;
   
     try {
-      console.log("Sending authData:", authData); // Optional debug log
+      console.log("Sending authData:", authData); 
   
       const res = await fetch(endpoint, {
         method: "POST",
@@ -155,7 +150,7 @@ function MainApp() {
   
       if (res.ok) {
         if (authMode === "login") {
-          // ✅ Expecting token on login
+          
           if (data.token) {
             addNotification("success", "✅ Logged in successfully!");
   
@@ -168,7 +163,7 @@ function MainApp() {
             addNotification("error", data.error || "Login failed.");
           }
         } else {
-          // ✅ Register response does not return token
+          
           addNotification("success", data.message || "🎉 Registered successfully. Please verify your email.");
           setAuthData({ username: "", password: "", email: "" });
         }
@@ -182,24 +177,16 @@ function MainApp() {
   };
   
 
-  // const logout = () => {
-  //   setToken("");
-  //   localStorage.removeItem("token");
-  //   setEntries([]);
-  // };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const newEntry = {
-    //   ...formData,
-    //   income: parseFloat(formData.income),
-    //   fee: parseFloat(formData.fee),
-    // };
+    
     const newEntry = {
       ...formData,
       income: parseFloat(formData.income),
       fee: parseFloat(formData.fee),
-      date: new Date().toISOString(), // 👈 Add this line
+      date: new Date().toISOString(), 
     };
 
     try {
@@ -218,7 +205,7 @@ function MainApp() {
       const saved = await res.json();
       setEntries([saved, ...entries]);
 
-      // 🎯 Update balances based on income currency
+      
       setBalances((prev) => {
         const updated = { ...prev };
 
@@ -237,7 +224,7 @@ function MainApp() {
         incomeCurrency: "USD",
         fee: "",
         feeCurrency: "USD",
-        date: new Date().toISOString().substring(0, 10), // Default: today
+        date: new Date().toISOString().substring(0, 10), 
       });
     } catch (err) {
       console.error("Failed to save entry:", err);
@@ -282,17 +269,7 @@ function MainApp() {
     };
   };
 
-  // if (!token) {
-  //   return (
-  //     <LoginForm
-  //       authMode={authMode}
-  //       setAuthMode={setAuthMode}
-  //       authData={authData}
-  //       setAuthData={setAuthData}
-  //       handleAuthSubmit={handleAuthSubmit}
-  //     />
-  //   );
-  // }
+  
 
   return (
     <>
@@ -599,37 +576,7 @@ function MainApp() {
 
 export default MainApp;
 
-// const Logo = () => {
-//     return (
-//       <motion.div
-//         layout
-//         className="logo"
-//         style={{ color: "black", textAlign: "center", marginBottom: "1rem" }}
-//       >
-//         <svg
-//           width="64" // ✅ Bigger width
-//           height="64" // ✅ Optional: define height explicitly
-//           viewBox="0 0 50 39"
-//           fill="black"
-//           xmlns="http://www.w3.org/2000/svg"
-//           className="logo-icon"
-//         >
-//           <path
-//             d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-//             fill="black"
-//           />
-//           <path
-//             d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-//             fill="black"
-//           />
-//         </svg>
-//         <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", marginTop: "0.9rem" }}>
-//           Money Management Tool
-//         </h2>
-//       </motion.div>
-//     );
-//   };
-  
+
 const Logo = () => {
     return (
       <motion.div
@@ -638,7 +585,7 @@ const Logo = () => {
         style={{
           textAlign: "center",
           marginBottom: "2rem",
-          transform: "translateZ(0)", // triggers hardware acceleration
+          transform: "translateZ(0)", 
         }}
       >
         <svg
@@ -649,8 +596,8 @@ const Logo = () => {
           xmlns="http://www.w3.org/2000/svg"
           className="logo-icon"
           style={{
-            filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))", // ✅ 3D shadow
-            transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)", // ✅ 3D tilt
+            filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))", 
+            transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)", 
             transition: "transform 0.3s ease, filter 0.3s ease",
             
           }}
@@ -663,7 +610,7 @@ const Logo = () => {
             
             fontWeight: "900",
             color: "#111827",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.2)", // ✅ title shadow
+            textShadow: "2px 2px 4px rgba(0,0,0,0.2)", 
             
           }}
         >

@@ -12,28 +12,28 @@ import "./profile.css";
 import MeetingCalender from "../Calender/MeetingCalender";
 import { useNavigate } from 'react-router-dom';
 
-export const SidebarWithProfile = ({ currentUser, logout }) => {
+const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
-//   const [selected, setSelected] = useState("Dashboard");
+
 const navigate = useNavigate()
 const [date, setDate] = useState(new Date());
   const [selectRange, setSelectRange] = useState(false);
 
 
-// inside SidebarWithProfile component
+
 useEffect(() => {
   const handleResize = () => {
     if (window.innerWidth < 768) {
-      setOpen(false);  // hide sidebar on small screens
+      setOpen(false);  
     } else {
-      setOpen(true);   // show sidebar on large screens
+      setOpen(true);   
     }
   };
 
-  // Run once on mount
+  
   handleResize();
 
-  // Run on window resize
+  
   window.addEventListener("resize", handleResize);
 
   return () => window.removeEventListener("resize", handleResize);
@@ -101,6 +101,8 @@ useEffect(() => {
     </div>
   );
 };
+
+export default SidebarWithProfile;
 
 const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
   return (
@@ -172,24 +174,7 @@ const TitleSection = ({ open, currentUser, logout }) => {
   );
 };
 
-// const Logo = () => {
-//   return (
-//     <motion.div layout className="logo-box">
-//       <svg
-//         width="24"
-//         height="auto"
-//         viewBox="0 0 50 39"
-//         fill="none"
-//         xmlns="http://www.w3.org/2000/svg"
-//         className="logo-icon"
-//       >
-//         <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" stopColor="#000000"></path>
-//         <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" stopColor="#000000"></path>
-//       </svg>
-      
-//     </motion.div>
-//   );
-// };
+
 
 const Logo = ({ currentUser }) => {
   return (
@@ -233,40 +218,6 @@ const ToggleClose = ({ open, setOpen }) => {
     );
   };
 
-  // const Option = ({ Icon, title, onClick, open, notifs }) => {
-  //   return (
-  //     <motion.button
-  //       layout
-  //       onClick={onClick}
-  //       className="sidebar-option"
-  //     >
-  //       <motion.div layout className="icon-container">
-  //         <Icon />
-  //       </motion.div>
-  //       {open && (
-  //         <motion.span
-  //           layout
-  //           initial={{ opacity: 0, y: 12 }}
-  //           animate={{ opacity: 1, y: 0 }}
-  //           transition={{ delay: 0.125 }}
-  //           className="option-title"
-  //         >
-  //           {title}
-  //         </motion.span>
-  //       )}
-  //       {notifs && open && (
-  //         <motion.span
-  //           initial={{ scale: 0, opacity: 0 }}
-  //           animate={{ opacity: 1, scale: 1 }}
-  //           transition={{ delay: 0.5 }}
-  //           className="notif-badge"
-  //         >
-  //           {notifs}
-  //         </motion.span>
-  //       )}
-  //     </motion.button>
-  //   );
-  // };
   
   
   
