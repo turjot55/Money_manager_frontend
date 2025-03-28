@@ -2,14 +2,11 @@
 import React from "react";
 import Actions from "./Partial/Action";
 import CalendarComponent from "./Partial/Calender";
-import Title from "./Partial/Tite";
 import Footer from "../footer";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import './button.css'
-import { CalenderSidebar } from "./CalenderSidebar";
 import './MeetingCalender.css'
-import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import StickyModal from "../modal/StickyModal";
 
