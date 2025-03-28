@@ -1,37 +1,28 @@
 import React, { useState, useEffect } from "react";
-// import "./App.css";
+
 import '../../App.css';
 import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
-// import ToastNotification from "./Notification/toastNotification";
-// import SlideInNotifications from "./Notification/toastNotification";
-// import SlideInNotifications
-// import Footer from "./components/footer";
+
 import Footer from "../footer";
-// import CookieConsent from "./components/cookies/CookieConsent";
+
 import CookieConsent from "../cookies/CookieConsent";
-// import StickyModal from "./components/modal/StickyModal";
+
 import StickyModal from "../modal/StickyModal";
-// import TransactionItem from "./components/transaction/TransactionItem";
+
 import TransactionItem from "../transaction/TransactionItem";
 import { AnimatePresence } from "framer-motion";
-// import SlideInNotifications from "./Notification/toastNotification";
-// import SlideProfile from "./components/Profile/profileBar";
-// import { SlideProfile } from "./components/Profile/profileBar";
-// import { SlideProfile } from "./components/Profile/profileBar";
-// import { SidebarWithProfile } from "./components/Profile/profileBar";
+
 import { SidebarWithProfile } from "../Profile/profileBar";
 
-// import { Placeholder } from '../node_modules/@babel/types/lib/index-legacy.d';
-// import { Divide } from '../../server/node_modules/mongoose/types/expressions.d';
-// import LoginForm from '../../Login/loginForm';
+
 import LoginForm from '../../Login/loginForm'
 import SlideInNotifications from '../../Notification/toastNotification'
 
 function MainApp() {
   const [entries, setEntries] = useState([]);
   const [conversionRate, setConversionRate] = useState(85);
-  // const [currentUser, setCurrentUser] = useState(null);
+ 
   const [formData, setFormData] = useState({
     platform: "",
     income: "",
@@ -47,22 +38,21 @@ function MainApp() {
   });
 
   const [authMode, setAuthMode] = useState("login");
-  // const [notification, setNotification] = useState({ type: "", message: "" });
-  // const [authData, setAuthData] = useState({ username: "", password: "" });
+  
   const [authData, setAuthData] = useState({
     username: "",
     password: "",
-    email: "", // ✅ add this
+    email: "", 
   });
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [notification, setNotification] = useState({ type: "", message: "" });
-  // const [notifications, setNotifications] = useState([]); // 👈 initialize as an empty array
+  
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  // const [token, setToken] = useState(localStorage.getItem("token") || "");
+  
   const [currentUser, setCurrentUser] = useState("");
 
-  // logout function
+ 
   const logout = () => {
     setToken("");
     localStorage.removeItem("token");

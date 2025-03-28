@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Calendar from "react-calendar";
-// import "src/App.css";
+
 const CalendarComponent = (props) => {
   const { setDate, date, selectRange } = props;
   return (

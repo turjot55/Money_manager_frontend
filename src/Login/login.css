@@ -132,7 +132,7 @@
     font-size: 1em;
     cursor: pointer;
     transition: background 0.2s ease-in-out;
-    margin: 1.5em auto 0; /* 🔥 Add top margin here */
+    margin: 1.5em auto 0; 
     width: 60%;
     display: block;
   }

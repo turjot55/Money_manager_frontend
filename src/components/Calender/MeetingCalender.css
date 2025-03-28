@@ -1,4 +1,4 @@
-/* Root layout wrapper */
+
 .calendar-wrapper-horizontal {
     display: flex;
     flex-direction: row;
@@ -15,7 +15,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center; /* ✅ Center everything horizontally */
+  align-items: center; 
   justify-content: center;
   gap: 2rem;
   }
@@ -28,11 +28,11 @@
   justify-content: flex-start;
   gap: 1.5rem;
 
-  /* ✅ Make sure there's NO margin-left auto */
+  
   margin-left: 0;
   }
   
-  /* Left side - calendar content */
+  
   .calendar-content-left {
     align-items: flex-start;
     flex: 1;
@@ -42,7 +42,7 @@
     gap: 1.5rem;
   }
   
-  /* Right side - logo aligned to the right */
+ 
   .logo-container-right {
     flex: 1;
     display: flex;
@@ -54,8 +54,7 @@
   .logo-container-right .logo {
     max-width: 200px;
   }
-  
-  /* Responsive layout for mobile */
+ 
   @media (max-width: 768px) {
     .calendar-wrapper-horizontal {
       flex-direction: column-reverse;
@@ -79,7 +78,7 @@
     text-align: center;
  }
 
-  /* Calendar container box */
+  
   .calendar-inner {
     background-color: #1f2937;
     border-radius: 0.75rem;
@@ -89,7 +88,7 @@
     transition: opacity 0.3s ease;
   }
   
-  /* Calendar toggle buttons */
+  
   .calendar-button {
     padding: 0.5rem 1.5rem;
     border-radius: 9999px;
@@ -145,7 +144,7 @@
     color: #ffffff;
   }
   
-  /* Time slots grid */
+ 
   .sidebar-time-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -181,7 +180,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
-  /* Dot for events */
+  
   .event-dot {
     height: 0.25rem;
     width: 0.25rem;

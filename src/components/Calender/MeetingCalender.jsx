@@ -16,13 +16,13 @@ const MeetingCalender = ({ date, setDate, selectRange, setSelectRange, currentUs
   return (
     <div className="main-bg">
       <div className="calendar-vertical-wrapper">
-        {/* You can now use it anywhere here */}
+       
         <Logo currentUser={currentUser} />
         <h2 style={{ textAlign: "center", color: "#333" }}>
           Welcome, <span style={{ fontWeight: "bold", color: "red"  , fontSize: "1rem" , textWrap: "wrap"}}>{currentUser}  This is a test version of the calendar. Soon, you’ll be able to select meeting durations, auto-generate Google Meet links, and enjoy more powerful features.</span> 👋
         </h2>
 
-        {/* <Title title={"Calendar"} /> */}
+        
         <CalendarComponent
           setDate={setDate}
           date={date}
