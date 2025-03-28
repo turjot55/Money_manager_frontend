@@ -2,15 +2,13 @@ import React, { useState, useEffect } from "react";
 import { FiChevronsRight, FiCalendar, FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
 import "./profile.css";
-import MeetingCalender from "../Calender/MeetingCalender";
 import { useNavigate } from "react-router-dom";
 
 const SidebarWithProfile = ({ currentUser, logout }) => {
   const [open, setOpen] = useState(true);
 
   const navigate = useNavigate();
-  const [date, setDate] = useState(new Date());
-  const [selectRange, setSelectRange] = useState(false);
+  
 
   useEffect(() => {
     const handleResize = () => {
