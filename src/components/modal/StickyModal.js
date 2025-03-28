@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
-import "./StickyModal.css"; // Import CSS
+import "./StickyModal.css"; 
 
 const StickyModal = ({ isOpen, setIsOpen }) => {
   return (

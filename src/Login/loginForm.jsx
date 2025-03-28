@@ -10,7 +10,7 @@ import {
   
   
 } from "react-icons/io5";
-// import {  IoEyeOffOutline } from "react-icons/io5";
+
 import { FaUser } from "react-icons/fa";
 import Footer from "../components/footer";
 import { IoMailOutline } from "react-icons/io5";
@@ -76,7 +76,7 @@ const LoginForm = ({
           <div className="sec-2">
             <IoLockClosedOutline />
             <input
-              type={showPassword ? "text" : "password"} // 👀 toggles based on state
+              type={showPassword ? "text" : "password"} 
               name="password"
               placeholder="············"
               value={authData.password}
