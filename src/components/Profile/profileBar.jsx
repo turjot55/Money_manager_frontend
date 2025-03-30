@@ -119,12 +119,12 @@ const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
             transition={{ delay: 0.125 }}
             className="title-text"
           >
-            <span className="title-main">{currentUser || "User"}</span>
+            {/* <span className="title-main">{currentUser || "User"}</span> */}
             <span className="title-sub">
               Hello, <strong style={{ color: "red" }}>{currentUser}</strong>{" "}
               Welcome to Money Management Tool{" "}
+            <span style={{ fontSize: "0.6rem", color: "blue"}}><strong>{currentUserEmail}</strong></span>
             </span>
-            <span>{currentUserEmail} No Email</span>
 
           </motion.div>
         )}
