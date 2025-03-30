@@ -3,11 +3,17 @@ import { FiChevronsRight, FiCalendar, FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext";
+import { useContext } from "react";
 
-const SidebarWithProfile = ({ currentUser, logout }) => {
+
+
+
+const SidebarWithProfile = ({ logout }) => {
   const [open, setOpen] = useState(true);
 
   const navigate = useNavigate();
+  const { currentUser, currentUserEmail } = useContext(UserContext);
   
 
   useEffect(() => {
@@ -39,7 +45,8 @@ const SidebarWithProfile = ({ currentUser, logout }) => {
             : "fit-content",
         }}
       >
-        <TitleSection open={open} currentUser={currentUser} logout={logout} />
+        <TitleSection open={open} currentUser={currentUser} logout={logout} currentUserEmail={currentUserEmail} />
+
         <Option
           Icon={FiCalendar}
           title="Calendar"
@@ -98,7 +105,8 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
   );
 };
 
-const TitleSection = ({ open, currentUser, logout }) => {
+const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
+  console.log({currentUserEmail}, "here is the email")
   return (
     <div className="title-section">
       <div className="title-container">
@@ -116,6 +124,8 @@ const TitleSection = ({ open, currentUser, logout }) => {
               Hello, <strong style={{ color: "red" }}>{currentUser}</strong>{" "}
               Welcome to Money Management Tool{" "}
             </span>
+            <span>{currentUserEmail} No Email</span>
+
           </motion.div>
         )}
       </div>
