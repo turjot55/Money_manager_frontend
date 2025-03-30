@@ -227,6 +227,9 @@
   }
 
   @media (max-width: 468px) {
+    .email-text {
+      font-size: 0.4rem;
+    }
     .sidebar {
       width: 120px; 
       font-size: 0.65rem;
@@ -275,4 +278,6 @@
       font-size: 1rem;
     }
   }
+  
+
   

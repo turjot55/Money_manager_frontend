@@ -123,7 +123,7 @@ const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
             <span className="title-sub">
               Hello, <strong style={{ color: "red" }}>{currentUser}</strong>{" "}
               Welcome to Money Management Tool{" "}
-            <span style={{ fontSize: "0.6rem", color: "blue"}}><strong>{currentUserEmail}</strong></span>
+            <span className="email-text" style={{ fontSize: "0.6rem", color: "blue"}}><strong>{currentUserEmail}</strong></span>
             </span>
 
           </motion.div>
