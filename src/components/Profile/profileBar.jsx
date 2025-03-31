@@ -106,11 +106,11 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
 };
 
 const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
-  console.log({currentUserEmail}, "here is the email")
+  
   return (
     <div className="title-section">
       <div className="title-container">
-        <Logo />
+        <Logo currentUser={currentUser}/>
         {open && (
           <motion.div
             layout
@@ -145,9 +145,13 @@ const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
 };
 
 const Logo = ({ currentUser }) => {
+  const firstLetter =
+    typeof currentUser === "string" && currentUser.length > 0
+      ? currentUser.toUpperCase()
+      : "";
   return (
     <motion.div layout className="logo-user" style={{ color: "white" }}>
-      {currentUser ? currentUser.charAt(0).toUpperCase() : "User"}
+      {firstLetter}
     </motion.div>
   );
 };
