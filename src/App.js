@@ -5,7 +5,7 @@ import MainApp from "./components/MainApp/MainAppComponent";
 import MeetingCalender from "./components/Calender/MeetingCalender";
 import { jwtDecode } from "jwt-decode";
 import { UserContext } from "./UserContext";
-
+import ResetPassword from "./components/ResetPass/ResetPassword";
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [selectRange, setSelectRange] = useState(false);
@@ -17,9 +17,7 @@ const App = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log("🧩 Decoded token:", decoded);
 
-        // ✅ Check token expiration
         if (decoded.exp && decoded.exp * 1000 > Date.now()) {
           const expiryTime = new Date(decoded.exp * 1000);
           console.log("✅ Login session ends at:", expiryTime.toLocaleString());
@@ -27,11 +25,9 @@ const App = () => {
           setCurrentUser(decoded.username);
           setCurrentUserEmail(decoded.email);
         } else {
-          console.warn("⚠️ Token expired or missing 'exp'. Logging out.");
           localStorage.removeItem("token");
         }
       } catch (err) {
-        console.error("❌ Failed to decode token:", err);
         localStorage.removeItem("token");
       }
     }
@@ -59,6 +55,7 @@ const App = () => {
             </div>
           }
         />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </UserContext.Provider>
   );

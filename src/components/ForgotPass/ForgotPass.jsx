@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import './ForgotPasswordForm.css';
+import Footer from '../footer';
 
 const ForgotPasswordForm = ({ setAuthMode }) => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage('');
+    setMessage({ type: '', text: '' });
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
+      console.log('Sending forgot password request for email:', email);
+      const response = await fetch('https://money-manager-ym1k.onrender.com/auth/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,40 +22,75 @@ const ForgotPasswordForm = ({ setAuthMode }) => {
         body: JSON.stringify({ email }),
       });
 
-      const data = await res.json();
-      
-      if (res.ok) {
-        setMessage('✅ Password reset link sent to your email!');
+      const data = await response.json();
+      console.log('Forgot password response:', data);
+
+      if (response.ok) {
+        setMessage({
+          type: 'success',
+          text: '✅ Reset link sent! Please check your email.'
+        });
         setEmail('');
       } else {
-        setMessage(`❌ ${data.error}`);
+        setMessage({
+          type: 'error',
+          text: `❌ ${data.error || 'Something went wrong'}`
+        });
       }
-    } catch (err) {
-      setMessage('❌ Something went wrong. Please try again.');
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      setMessage({
+        type: 'error',
+        text: '❌ Connection error. Please try again.'
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="auth-form">
+    <div className="forgot-password-container">
       <h2>Reset Password</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Sending...' : 'Send Reset Link'}
+        <div className="email-input">
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <button 
+          type="submit" 
+          className="reset-button modern-button"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <span className="loading-spinner"></span>
+          ) : (
+            <>
+              <span className="button-icon">📨</span>
+              <span>Send Reset Link</span>
+            </>
+          )}
+        </button>
+        {message.text && (
+          <div className={`message ${message.type}`}>
+            {message.text}
+          </div>
+        )}
+        <button
+          type="button"
+          className="back-button modern-button"
+          onClick={() => setAuthMode('login')}
+        >
+          <span className="button-icon">←</span>
+          <span>Back to Login</span>
         </button>
       </form>
-      {message && <p className={message.includes('✅') ? 'success' : 'error'}>{message}</p>}
-      <button onClick={() => setAuthMode('login')} className="link-button">
-        Back to Login
-      </button>
+      <Footer/>
     </div>
   );
 };

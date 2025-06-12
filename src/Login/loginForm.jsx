@@ -12,6 +12,7 @@ import { FaUser } from "react-icons/fa";
 import Footer from "../components/footer";
 import { IoMailOutline } from "react-icons/io5";
 
+
 const LoginForm = ({
   authMode,
   setAuthMode,
@@ -20,6 +21,7 @@ const LoginForm = ({
   handleAuthSubmit,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  
 
   return (
     <motion.div
@@ -98,6 +100,15 @@ const LoginForm = ({
         <button className="login" type="submit">
           {authMode === "login" ? "Login" : "Register"}
         </button>
+
+        {/* Add this button in your form */}
+        {/* <button 
+          type="button"
+          className="forgot-password-link"
+          onClick={() => setAuthMode('forgotPassword')}
+        >
+          Forgot Password?
+        </button> */}
       </form>
 
       <div className="footer">
@@ -108,7 +119,12 @@ const LoginForm = ({
         >
           {authMode === "login" ? "Sign up" : "Already have an account?"}
         </span>
-        <span>Forgot Password?</span>
+        <span
+        onClick= {() => setAuthMode("forgotPassword")}
+        >
+          Forgot Password
+          
+        </span>
       </div>
       <Footer />
     </motion.div>
