@@ -17,7 +17,7 @@ import SidebarWithProfile from "../Profile/profileBar";
 
 import LoginForm from "../../Login/loginForm";
 import SlideInNotifications from "../../Notification/toastNotification";
-import TimeCard from "../TimeCard/TimeCard";
+// import TimeCard from "../TimeCard/TimeCard";
 // import ForgotPasswordForm from '../ForgotPassword/ForgotPasswordForm';
 import ForgotPasswordForm from "../ForgotPass/ForgotPass";
 
