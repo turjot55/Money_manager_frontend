@@ -40,7 +40,7 @@ function MainApp() {
   });
 
   const [authMode, setAuthMode] = useState("login");
-  const [errorMsg, setErrorMsg] = useState(""); 
+  const [ setErrorMsg] = useState(""); 
 
   const [authData, setAuthData] = useState({
     email: "",
