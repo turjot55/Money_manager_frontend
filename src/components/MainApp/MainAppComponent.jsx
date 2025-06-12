@@ -17,6 +17,8 @@ import SidebarWithProfile from "../Profile/profileBar";
 
 import LoginForm from "../../Login/loginForm";
 import SlideInNotifications from "../../Notification/toastNotification";
+import TimeCard from "../TimeCard/TimeCard";
+import ForgotPasswordForm from '../ForgotPassword/ForgotPasswordForm';
 
 function MainApp() {
   const [entries, setEntries] = useState([]);
@@ -37,11 +39,11 @@ function MainApp() {
   });
 
   const [authMode, setAuthMode] = useState("login");
+  const [errorMsg, setErrorMsg] = useState(""); 
 
   const [authData, setAuthData] = useState({
-    username: "",
-    password: "",
     email: "",
+    password: "",
   });
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [notification, setNotification] = useState({ type: "", message: "" });
@@ -128,50 +130,46 @@ function MainApp() {
 
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg("");
 
     const url = authMode === "login" ? "login" : "register";
-    const endpoint = `https://money-manager-ym1k.onrender.com/auth/${url}`;
+    const endpoint = `${process.env.REACT_APP_API_URL}/auth/${url}`;
 
     try {
-      console.log("Sending authData:", authData);
-
       const res = await fetch(endpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(authData),
+        credentials: 'omit',
+        mode: 'cors',
+        body: JSON.stringify(authData)
       });
 
       const data = await res.json();
 
-      if (res.ok) {
-        if (authMode === "login") {
-          if (data.token) {
-            addNotification("success", "✅ Logged in successfully!");
-
-            setTimeout(() => {
-              localStorage.setItem("token", data.token);
-              setToken(data.token);
-              setAuthData({ username: "", password: "", email: "" });
-            }, 200);
-          } else {
-            addNotification("error", data.error || "Login failed.");
-          }
-        } else {
-          addNotification(
-            "success",
-            data.message ||
-              "🎉 Registered successfully. Please verify your email."
-          );
-          setAuthData({ username: "", password: "", email: "" });
+      if (!res.ok) {
+        // Handle specific error cases
+        if (data.error === "Email taken") {
+          addNotification("error", "❌ This email is already registered. Please try logging in instead.");
+          setAuthMode("login"); // Optionally switch to login mode
+          return;
         }
-      } else {
-        addNotification("error", data.error || "Something went wrong.");
+        throw new Error(data.error || "Registration failed");
+      }
+      
+      if (authMode === "login" && data.token) {
+        addNotification("success", "✅ Logged in successfully!");
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        setAuthData({ username: "", password: "", email: "" });
+      } else if (authMode === "register") {
+        addNotification("success", "🎉 Registration successful! Please check your email to verify your account.");
+        setAuthData({ username: "", password: "", email: "" });
       }
     } catch (err) {
       console.error("Auth error:", err);
-      addNotification("error", "❌ Something went wrong. Please try again.");
+      addNotification("error", `❌ ${err.message || "Connection failed. Please try again."}`);
     }
   };
 
@@ -252,6 +250,7 @@ function MainApp() {
     entries.forEach((entry) => {
       totalIncomeUSD += convertCurrency(
         entry.income,
+         
         entry.incomeCurrency,
         "USD"
       );
@@ -270,6 +269,7 @@ function MainApp() {
         <Logo />
       </div>
       <div className="app-wrapper">
+        
         {token && (
           <SidebarWithProfile currentUser={currentUser} logout={logout} />
         )}
@@ -457,13 +457,17 @@ function MainApp() {
             }
           </motion.div>
         ) : (
-          <LoginForm
-            authMode={authMode}
-            setAuthMode={setAuthMode}
-            authData={authData}
-            setAuthData={setAuthData}
-            handleAuthSubmit={handleAuthSubmit}
-          />
+          authMode === 'forgotPassword' ? (
+            <ForgotPasswordForm setAuthMode={setAuthMode} />
+          ) : (
+            <LoginForm
+              authMode={authMode}
+              setAuthMode={setAuthMode}
+              authData={authData}
+              setAuthData={setAuthData}
+              handleAuthSubmit={handleAuthSubmit}
+            />
+          )
         )}
       </div>
     </>
