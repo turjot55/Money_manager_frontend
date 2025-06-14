@@ -4,18 +4,33 @@ import { motion } from 'framer-motion';
 const Contact = () => {
   const [formStatus, setFormStatus] = useState('idle');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('sending');
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setFormStatus('success');
-      setTimeout(() => {
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch('https://money-manager-ym1k.onrender.com/api/contact/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        setFormStatus('success');
+        setTimeout(() => {
+          setFormStatus('idle');
+          e.target.reset();
+        }, 3000);
+      } else {
         setFormStatus('idle');
-        e.target.reset();
-      }, 3000);
-    }, 1500);
+        alert('Failed to send message. Please try again.');
+      }
+    } catch {
+      setFormStatus('idle');
+      alert('Failed to send message. Please try again.');
+    }
   };
 
   return (

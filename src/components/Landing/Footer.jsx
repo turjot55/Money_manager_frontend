@@ -18,7 +18,7 @@ const Footer = () => {
 
   const socialLinks = [
     { 
-      href: 'https://www.linkedin.com/in/turjatalukder', 
+      href: 'https://www.linkedin.com/in/turja-talukder-6a0a5a103/', 
       icon: 'fab fa-linkedin-in', 
       label: 'LinkedIn',
       color: 'hover:text-[#0077B5]'
@@ -30,7 +30,7 @@ const Footer = () => {
       color: 'hover:text-[#E4405F]'
     },
     { 
-      href: 'https://www.facebook.com/turjatalukder', 
+      href: 'https://www.facebook.com/turjot/', 
       icon: 'fab fa-facebook-f', 
       label: 'Facebook',
       color: 'hover:text-[#1877F2]'
