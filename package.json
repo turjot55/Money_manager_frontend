@@ -29,9 +29,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start --config craco.config.cjs",
-    "build": "craco build --config craco.config.cjs",
-    "test": "craco test --config craco.config.cjs"
+    "start": "react-scripts start",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +53,11 @@
     ]
   },
   "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-loader": "4.0.2",
+    "@babel/eslint-parser": "7.19.1",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
