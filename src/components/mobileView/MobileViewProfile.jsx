@@ -1,0 +1,95 @@
+import React, { useState, useEffect } from "react";
+// import { FiChevronsRight, FiCalendar, FiLogOut } from "react-icons/fi";
+import { motion } from "framer-motion";
+import "./profile.css";
+// import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext";
+import { useContext } from "react";
+
+
+
+
+const SidebarWithProfile = ({ logout }) => {
+  const [open, setOpen] = useState(true);
+
+  // const navigate = useNavigate();
+  const { currentUser, currentUserEmail } = useContext(UserContext);
+  
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div className="sidebar-wrapper ">
+      <motion.nav
+        layout
+        className="sidebar"
+        style={{
+          width: open
+            ? window.innerWidth < 480
+              ? "140px"
+              : "225px"
+            : "fit-content",
+        }}
+      >
+        <TitleSection open={open} currentUser={currentUser} logout={logout} currentUserEmail={currentUserEmail} />
+
+       
+      </motion.nav>
+    </div>
+  );
+};
+
+export default SidebarWithProfile;
+
+
+const TitleSection = ({ open, currentUser, logout, currentUserEmail }) => {
+  console.log({currentUserEmail}, "here is the email")
+  return (
+    <div className="title-section">
+      <div className="title-container">
+        <Logo />
+        {open && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.125 }}
+            className="title-text"
+          >
+            {/* <span className="title-main">{currentUser || "User"}</span> */}
+            <span className="title-sub">
+              Hello, <strong style={{ color: "red" }}>{currentUser}</strong>{" "}
+              Welcome to Money Management Tool{" "}
+            <span className="email-text" style={{ fontSize: "0.6rem", color: "blue"}}><strong>{currentUserEmail}</strong></span>
+            </span>
+
+          </motion.div>
+        )}
+      </div>
+      
+    </div>
+  );
+};
+
+const Logo = ({ currentUser }) => {
+  return (
+    <motion.div layout className="logo-user" style={{ color: "white" }}>
+      {currentUser ? currentUser.charAt(0).toUpperCase() : "User"}
+    </motion.div>
+  );
+};
+

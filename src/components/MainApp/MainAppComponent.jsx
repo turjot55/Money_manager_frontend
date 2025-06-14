@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import "../../App.css";
 import { jwtDecode } from "jwt-decode";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Footer from "../footer";
 
@@ -11,7 +11,6 @@ import CookieConsent from "../cookies/CookieConsent";
 import StickyModal from "../modal/StickyModal";
 
 import TransactionItem from "../transaction/TransactionItem";
-import { AnimatePresence } from "framer-motion";
 
 import SidebarWithProfile from "../Profile/profileBar";
 
@@ -20,10 +19,16 @@ import SlideInNotifications from "../../Notification/toastNotification";
 // import TimeCard from "../TimeCard/TimeCard";
 // import ForgotPasswordForm from '../ForgotPassword/ForgotPasswordForm';
 import ForgotPasswordForm from "../ForgotPass/ForgotPass";
+import WorkRoutine from "../WorkOut/WorkRoutine";
 
 function MainApp() {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState([]); // Initialize as empty array
   const [conversionRate, setConversionRate] = useState(85);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
+  const [devicePixelRatio, setDevicePixelRatio] = useState(1);
 
   const [formData, setFormData] = useState({
     platform: "",
@@ -40,7 +45,7 @@ function MainApp() {
   });
 
   const [authMode, setAuthMode] = useState("login");
-  const [ setErrorMsg] = useState(""); 
+  // const [ setErrorMsg] = useState(""); 
 
   const [authData, setAuthData] = useState({
     email: "",
@@ -97,15 +102,24 @@ function MainApp() {
 
     fetch("https://money-manager-ym1k.onrender.com/entries", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
       },
+      credentials: 'include'
     })
-      .then((res) => res.json())
-      .then((data) => setEntries(data));
-
-    fetch("https://money-manager-ym1k.onrender.com/convert?from=USD&to=BDT")
-      .then((res) => res.json())
-      .then((data) => setConversionRate(data.rate || 117));
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        setEntries(Array.isArray(data) ? data : []);
+      })
+      .catch(error => {
+        console.error("Failed to fetch entries:", error);
+        setEntries([]);
+      });
   }, [token]);
 
   useEffect(() => {
@@ -121,17 +135,68 @@ function MainApp() {
   useEffect(() => {
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        setCurrentUser(decoded.username);
+        // First try to get user data from localStorage
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          setCurrentUser(userData.username);
+        } else {
+          // Fallback to decoding from token if no stored user data
+          const decoded = jwtDecode(token);
+          setCurrentUser(decoded.username);
+        }
       } catch (err) {
         console.error("Invalid token:", err);
       }
     }
   }, [token]);
 
+  // Detect device type and capabilities
+  useEffect(() => {
+    const checkDevice = () => {
+      const ua = navigator.userAgent;
+      setIsIOS(/iPad|iPhone|iPod/.test(ua));
+      setIsAndroid(/Android/.test(ua));
+      setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+      setDevicePixelRatio(window.devicePixelRatio || 1);
+      
+      // Check if mobile
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(ua) || window.innerWidth <= 768;
+      setIsMobile(isMobileDevice);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  // Handle viewport height for mobile browsers
+  useEffect(() => {
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    return () => {
+      window.removeEventListener('resize', setVH);
+      window.removeEventListener('orientationchange', setVH);
+    };
+  }, []);
+
+  // Handle safe areas for iOS devices
+  useEffect(() => {
+    if (isIOS) {
+      document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+      document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+    }
+  }, [isIOS]);
+
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg("");
+    // setErrorMsg("");
 
     const url = authMode === "login" ? "login" : "register";
     const endpoint = `${process.env.REACT_APP_API_URL}/auth/${url}`;
@@ -245,22 +310,27 @@ function MainApp() {
   };
 
   const calculateTotals = () => {
+    if (!Array.isArray(entries)) {
+      console.error('Entries is not an array:', entries);
+      return {
+        netEarningsUSD: 0,
+        netEarningsBDT: 0
+      };
+    }
+
     let totalIncomeUSD = 0;
     let totalFeesUSD = 0;
 
-    entries.forEach((entry) => {
-      totalIncomeUSD += convertCurrency(
-        entry.income,
-         
-        entry.incomeCurrency,
-        "USD"
-      );
-      totalFeesUSD += convertCurrency(entry.fee, entry.feeCurrency, "USD");
+    entries.forEach(entry => {
+      if (entry && typeof entry.income === 'number' && typeof entry.fee === 'number') {
+        totalIncomeUSD += convertCurrency(entry.income, entry.incomeCurrency, "USD");
+        totalFeesUSD += convertCurrency(entry.fee, entry.feeCurrency, "USD");
+      }
     });
 
     return {
       netEarningsUSD: totalIncomeUSD - totalFeesUSD,
-      netEarningsBDT: (totalIncomeUSD - totalFeesUSD) * conversionRate,
+      netEarningsBDT: (totalIncomeUSD - totalFeesUSD) * conversionRate
     };
   };
 
@@ -269,194 +339,175 @@ function MainApp() {
       <div className="top-logo-wrapper">
         <Logo />
       </div>
-      <div className="app-wrapper">
-        
-        {token && (
-          <SidebarWithProfile currentUser={currentUser} logout={logout} />
-        )}
-
-        <div className="app-content">{/* ✅ Your existing content here */}</div>
-
-        <CookieConsent />
-        <SlideInNotifications
-          notifications={notifications}
-          removeNotification={removeNotification}
-        />
-
+      <div className={`app-wrapper ${isMobile ? 'mobile' : ''} ${isIOS ? 'ios' : ''} ${isAndroid ? 'android' : ''}`}>
         {token ? (
-          <motion.div
-            className="app"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            {
-              <div className="container">
-                <motion.div
-                  className="card"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                >
-                  <h2 className="section-title">Add Transaction</h2>
-                  <form onSubmit={handleSubmit} className="form-grid">
-                    <div className="form-group">
-                      <label>Date Earned</label>
-                      <input
-                        type="date"
-                        value={formData.date}
-                        onChange={(e) =>
-                          setFormData({ ...formData, date: e.target.value })
-                        }
-                      />
-                      <label>Platform</label>
-                      <input
-                        required
-                        placeholder="example: upwork"
-                        type="text"
-                        value={formData.platform}
-                        onChange={(e) =>
-                          setFormData({ ...formData, platform: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Income</label>
-                      <input
-                        required
-                        type="number"
-                        value={formData.income}
-                        onChange={(e) =>
-                          setFormData({ ...formData, income: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Income Currency</label>
-                      <select
-                        value={formData.incomeCurrency}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            incomeCurrency: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="USD">USD</option>
-                        <option value="BDT">BDT</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Fee</label>
-                      <input
-                        placeholder="tax: fee or VAT"
-                        type="number"
-                        value={formData.fee}
-                        onChange={(e) =>
-                          setFormData({ ...formData, fee: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Fee Currency</label>
-                      <select
-                        value={formData.feeCurrency}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            feeCurrency: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="USD">USD</option>
-                        <option value="BDT">BDT</option>
-                      </select>
-                    </div>
-                    <div className="form-button">
-                      <button type="submit">Add Entry</button>
-                    </div>
-                  </form>
-                </motion.div>
-
-                <motion.div
-                  className="card"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                >
-                  <h2 className="section-title">Balance in USD</h2>
-                  <div className="balances">
-                    <div className="balance-item">
-                      <h3>Payoneer</h3>
-                      <p>
-                        <strong>
-                          ${calculateTotals().netEarningsUSD.toFixed(2)}
-                        </strong>
-                      </p>
-                    </div>
-                    <div className="balances">
-                      <div className="balance-item">
-                        <h3>Balance in BDT</h3>
-                        <p>
-                          <strong>
-                            {" "}
-                            ৳{calculateTotals().netEarningsBDT.toFixed(2)}
-                          </strong>
-                        </p>
+          <div className="layout-container">
+            <SidebarWithProfile currentUser={currentUser} logout={logout} />
+            <div className="main-content-wrapper">
+              <motion.div
+                className="app"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <div className="main-container">
+                  <motion.div
+                    className="content-wrapper"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                  >
+                    <div className="main-content">
+                      <div className="section work-routine-section">
+                        <h2 className="section-heading">Work Routines</h2>
+                        <div className="work-routine-container">
+                          <WorkRoutine />
+                        </div>
                       </div>
+
+                      <motion.div
+                        className="section transaction-section"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                      >
+                        <h2 className="section-heading">Add Transaction</h2>
+                        <form onSubmit={handleSubmit} className="form-grid">
+                          <div className="form-group">
+                            <label>Date Earned</label>
+                            <input
+                              type="date"
+                              value={formData.date}
+                              onChange={(e) =>
+                                setFormData({ ...formData, date: e.target.value })
+                              }
+                            />
+                            <label>Platform</label>
+                            <input
+                              required
+                              placeholder="example: upwork"
+                              type="text"
+                              value={formData.platform}
+                              onChange={(e) =>
+                                setFormData({ ...formData, platform: e.target.value })
+                              }
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Income</label>
+                            <input
+                              required
+                              type="number"
+                              value={formData.income}
+                              onChange={(e) =>
+                                setFormData({ ...formData, income: e.target.value })
+                              }
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Income Currency</label>
+                            <select
+                              value={formData.incomeCurrency}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  incomeCurrency: e.target.value,
+                                })
+                              }
+                            >
+                              <option value="USD">USD</option>
+                              <option value="BDT">BDT</option>
+                            </select>
+                          </div>
+                          <div className="form-group">
+                            <label>Fee</label>
+                            <input
+                              placeholder="tax: fee or VAT"
+                              type="number"
+                              value={formData.fee}
+                              onChange={(e) =>
+                                setFormData({ ...formData, fee: e.target.value })
+                              }
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Fee Currency</label>
+                            <select
+                              value={formData.feeCurrency}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  feeCurrency: e.target.value,
+                                })
+                              }
+                            >
+                              <option value="USD">USD</option>
+                              <option value="BDT">BDT</option>
+                            </select>
+                          </div>
+                          <div className="form-button">
+                            <button type="submit">Add Entry</button>
+                          </div>
+                        </form>
+                      </motion.div>
+
+                      <motion.div
+                        className="section balance-section"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                      >
+                        <h2 className="section-heading">Balance Summary</h2>
+                        <div className="balances">
+                          <div className="balance-item">
+                            <h3>Payoneer (USD)</h3>
+                            <p>
+                              <strong>
+                                ${calculateTotals().netEarningsUSD.toFixed(2)}
+                              </strong>
+                            </p>
+                          </div>
+                          <div className="balance-item">
+                            <h3>Bank (BDT)</h3>
+                            <p>
+                              <strong>
+                                ৳{calculateTotals().netEarningsBDT.toFixed(2)}
+                              </strong>
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        className="section history-section"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                      >
+                        <h2 className="section-heading">Transaction History</h2>
+                        <AnimatePresence>
+                          {entries.length === 0 ? (
+                            <p className="empty">No transactions recorded yet.</p>
+                          ) : (
+                            entries.map((entry) => (
+                              <TransactionItem
+                                key={entry._id}
+                                entry={entry}
+                                handleDelete={handleDelete}
+                              />
+                            ))
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
                     </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="card"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                >
-                  <h2 className="section-title">Summary</h2>
-                  <p>
-                    Net Earnings:{" "}
-                    <strong>
-                      ${calculateTotals().netEarningsUSD.toFixed(2)}
-                    </strong>{" "}
-                    /
-                    <strong>
-                      {" "}
-                      ৳{calculateTotals().netEarningsBDT.toFixed(2)}
-                    </strong>
-                  </p>
-                </motion.div>
-
-                <motion.div
-                  className="card"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                >
-                  <h2 className="section-title">Transaction History</h2>
-
-                  <AnimatePresence>
-                    {entries.length === 0 ? (
-                      <p className="empty">No transactions recorded yet.</p>
-                    ) : (
-                      entries.map((entry) => (
-                        <TransactionItem
-                          key={entry._id}
-                          entry={entry}
-                          handleDelete={handleDelete}
-                        />
-                      ))
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-                <StickyModal isOpen={showModal} setIsOpen={setShowModal} />
-
-                <button
-                  className="sticky-cookie-btn"
-                  onClick={() => setShowModal(true)}
-                >
-                  Important Notice
-                </button>
-                <Footer />
-              </div>
-            }
-          </motion.div>
+                  </motion.div>
+                </div>
+              </motion.div>
+              <StickyModal isOpen={showModal} setIsOpen={setShowModal} />
+              <button
+                className="sticky-cookie-btn"
+                onClick={() => setShowModal(true)}
+              >
+                Important Notice
+              </button>
+              <Footer />
+            </div>
+          </div>
         ) : (
           authMode === 'forgotPassword' ? (
             <ForgotPasswordForm setAuthMode={setAuthMode} />
@@ -470,6 +521,11 @@ function MainApp() {
             />
           )
         )}
+        <CookieConsent />
+        <SlideInNotifications
+          notifications={notifications}
+          removeNotification={removeNotification}
+        />
       </div>
     </>
   );

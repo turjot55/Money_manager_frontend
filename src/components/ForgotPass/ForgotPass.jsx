@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import './ForgotPasswordForm.css';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { IoMailOutline } from "react-icons/io5";
 import Footer from '../footer';
 
-const ForgotPasswordForm = ({ setAuthMode }) => {
+const ForgotPasswordForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
     setIsLoading(true);
-    setMessage({ type: '', text: '' });
 
     try {
-      console.log('Sending forgot password request for email:', email);
-      const response = await fetch('https://money-manager-ym1k.onrender.com/auth/forgot-password', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,75 +27,77 @@ const ForgotPasswordForm = ({ setAuthMode }) => {
       });
 
       const data = await response.json();
-      console.log('Forgot password response:', data);
 
       if (response.ok) {
-        setMessage({
-          type: 'success',
-          text: '✅ Reset link sent! Please check your email.'
-        });
-        setEmail('');
+        setSuccess('Password reset link has been sent to your email.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } else {
-        setMessage({
-          type: 'error',
-          text: `❌ ${data.error || 'Something went wrong'}`
-        });
+        setError(data.error || 'Failed to process request. Please try again.');
       }
-    } catch (error) {
-      console.error('Forgot password error:', error);
-      setMessage({
-        type: 'error',
-        text: '❌ Connection error. Please try again.'
-      });
+    } catch (err) {
+      setError('Connection error. Please check your internet connection.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="forgot-password-container">
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="email-input">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-          />
+    <motion.div
+      className="screen-1"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <div className="logo">
+        <h1>Reset Password</h1>
+      </div>
+
+      {error && (
+        <div className="error-message error">
+          {error}
         </div>
-        <button 
-          type="submit" 
-          className="reset-button modern-button"
-          disabled={isLoading}
-        >
+      )}
+
+      {success && (
+        <div className="error-message success">
+          {success}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="email">
+          <label htmlFor="email">Email Address</label>
+          <div className="sec-2">
+            <IoMailOutline />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        <button className="login" type="submit" disabled={isLoading}>
           {isLoading ? (
             <span className="loading-spinner"></span>
           ) : (
-            <>
-              <span className="button-icon">📨</span>
-              <span>Send Reset Link</span>
-            </>
+            "Send Reset Link"
           )}
         </button>
-        {message.text && (
-          <div className={`message ${message.type}`}>
-            {message.text}
-          </div>
-        )}
-        <button
-          type="button"
-          className="back-button modern-button"
-          onClick={() => setAuthMode('login')}
-        >
-          <span className="button-icon">←</span>
-          <span>Back to Login</span>
-        </button>
       </form>
-      <Footer/>
-    </div>
+
+      <div className="footer">
+        <span onClick={() => navigate('/login')}>
+          Back to Login
+        </span>
+      </div>
+      <Footer />
+    </motion.div>
   );
 };
 
