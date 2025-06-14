@@ -25,10 +25,11 @@ const StickyModal = ({ isOpen, setIsOpen }) => {
               <div className="modal-circle">
                 <FiAlertCircle />
               </div>
-              <h3>One more thing!</h3>
+              <h3>Important Notice</h3>
               <p>
-                This Web application for tracking your Transaction from Different Platform 
-                Use It Only For Personal Use 
+                This Money Management Tool is designed for personal use only. Please do not use it to store sensitive financial or business data. <br /><br />
+                <strong>Your privacy matters:</strong> No sensitive financial data is stored or shared with third parties. All features are intended to help you track your personal transactions and routines in a simple, secure way.<br /><br />
+                <strong>Disclaimer:</strong> This tool is not a substitute for professional financial advice or business accounting. Use it responsibly and at your own discretion.
               </p>
               <div className="modal-buttons">
                 <button onClick={() => setIsOpen(false)} className="modal-cancel">
