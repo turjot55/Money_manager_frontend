@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-const Contact = () => {
+const Contact = ({ addNotification }) => {
   const [formStatus, setFormStatus] = useState('idle');
 
+  /**
+   * Optionally accepts addNotification(type, text) prop to show toast/slide-in notification.
+   * If not provided, falls back to alert().
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('sending');
@@ -17,19 +21,21 @@ const Contact = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      
       if (res.ok) {
         setFormStatus('success');
+        addNotification('success', '✅ Message sent successfully!');
         setTimeout(() => {
           setFormStatus('idle');
           e.target.reset();
         }, 3000);
       } else {
         setFormStatus('idle');
-        alert('Failed to send message. Please try again.');
+        addNotification('error', '❌ Failed to send message. Please try again.');
       }
-    } catch {
+    } catch (error) {
       setFormStatus('idle');
-      alert('Failed to send message. Please try again.');
+      addNotification('error', '❌ Failed to send message. Please try again.');
     }
   };
 
