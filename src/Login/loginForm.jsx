@@ -36,7 +36,7 @@ const LoginForm = () => {
         ? { email: authData.email, password: authData.password }
         : authData;
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/${url}`, {
+      const response = await fetch(`https://money-manager-ym1k.onrender.com/auth/${url}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
