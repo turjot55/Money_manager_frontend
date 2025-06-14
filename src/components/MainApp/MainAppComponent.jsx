@@ -538,43 +538,53 @@ const Logo = () => {
     <motion.div
       layout
       className="logo"
-      style={{
-        textAlign: "center",
-        marginBottom: "2rem",
-        transform: "translateZ(0)",
-      }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <svg
-        width="80"
-        height="80"
-        viewBox="0 0 50 39"
-        fill="black"
-        xmlns="http://www.w3.org/2000/svg"
-        className="logo-icon"
-        style={{
-          filter: "drop-shadow(4px 4px 8px rgba(0,0,0,0.3))",
-          transform: "rotateX(5deg) rotateY(-5deg) scale(1.05)",
-          transition: "transform 0.3s ease, filter 0.3s ease",
-        }}
-      >
-        <path
-          d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-          fill="black"
-        />
-        <path
-          d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-          fill="black"
-        />
-      </svg>
-      <h2
-        style={{
-          fontWeight: "900",
-          color: "#111827",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
-        }}
-      >
-        Money Management Tool
-      </h2>
+      <div className="logo-content">
+        <motion.div 
+          className="logo-icon-wrapper"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 50 39"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="logo-icon"
+          >
+            <path
+              d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
+              fill="url(#gradient1)"
+            />
+            <path
+              d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
+              fill="url(#gradient2)"
+            />
+            <defs>
+              <linearGradient id="gradient1" x1="1" y1="2" x2="37.5808" y2="24.9729" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#8B5CF6"/>
+                <stop offset="1" stopColor="#EC4899"/>
+              </linearGradient>
+              <linearGradient id="gradient2" x1="11.4192" y1="36" x2="49" y2="13.0271" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#EC4899"/>
+                <stop offset="1" stopColor="#8B5CF6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+        <motion.h2
+          className="logo-text"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Money Management Tool
+        </motion.h2>
+      </div>
     </motion.div>
   );
 };

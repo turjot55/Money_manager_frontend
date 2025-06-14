@@ -1,292 +1,285 @@
-
 .sidebar-wrapper {
-    display: flex;
-  }
-  
+  display: flex;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.sidebar {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+/* Profile Section */
+.title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-email {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0.25rem 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Menu Section */
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.menu-item.active {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 1.25rem;
+}
+
+.menu-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Logout Button */
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  border-radius: 12px;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.logout-button span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Toggle Button */
+.toggle-button {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.toggle-icon {
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Scrollbar Styles */
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
   .sidebar {
-    position: sticky;
-    top: 0;
-    width: 225px;
-    height: 100vh;
-    flex-shrink: 0;
-    border-right: 1px solid #cbd5e1;
-    background-color: white;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .logout-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.75rem 0;
-    width: 100%;
-    position: relative; 
-  }
-  
-  .logout-icon-button {
-    background: none;
-    border: none;
-    color: #4b5563;
-    font-size: 1.25rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  
-  .sidebar-options {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  
-  .sidebar-option {
-    margin-bottom: 630px;
-    display: flex;
-    height: 40px;
-    width: 100%;
-    align-items: center;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s, color 0.2s;
-    color: #64748b;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .sidebar-option:hover {
-    background-color: #f1f5f9;
-  }
-  
-  .sidebar-option.selected {
-    background-color: #e0e7ff;
-    color: #3730a3;
-  }
-  
-  .icon-container {
-    display: grid;
-    height: 100%;
-    width: 40px;
-    place-content: center;
-    font-size: 1.125rem;
-  }
-  
-  .option-title {
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  
-  .notif-badge {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.75rem;
-    background-color: #6366f1;
-    color: white;
-    padding: 0.1rem 0.3rem;
-    border-radius: 9999px;
-  }
-  
-  .title-section {
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #cbd5e1;
-  }
-  
-  .title-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    padding: 0.3rem;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s;
-  }
-  
-  .title-container:hover {
-    background-color: #f1f5f9;
-  }
-  
-  .logo-user {
-    display: grid;
-    width: 40px;
-    height: 40px;
-    font-size: 0.5rem;
-    font-weight: bold;
-    place-content: center;
-    background-color: #4f46e5;
-    border-radius: 0.375rem;
-     white-space: nowrap;
-     overflow: hidden;
-     text-transform: capitalize;
-     text-overflow: ellipsis;
-    flex-shrink: 0;
-  }
-
-  
-  
-  
-  .logo-icon {
-    fill: #f8fafc;
-  }
-
-  
-  
-  
-  
-  .title-text {
-    margin-left: 0.5rem;
-  }
-  
-  .title-main {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  
-  .title-sub {
-    display: block;
-    font-size: 0.75rem;
-    color: #64748b;
-  }
-  
-  .chevron-down {
-    margin-left: auto;
-    margin-right: 0.5rem;
-  }
-  
-  .toggle-button {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
     left: 0;
-    right: 0;
-    border-top: 1px solid #cbd5e1;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .toggle-button:hover {
-    background-color: #f1f5f9;
-  }
-  
-  .toggle-content {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-  }
-  
-  .toggle-icon {
-    display: grid;
-    width: 40px;
-    place-content: center;
-    font-size: 1.125rem;
-  }
-  
-  .chevron-icon {
+    top: 0;
+    height: 100vh;
+    transform: translateX(0);
     transition: transform 0.3s ease;
   }
-  
-  .chevron-icon.rotated {
-    transform: rotate(180deg);
+
+  .sidebar.collapsed {
+    transform: translateX(-100%);
   }
-  
-  .hide-label {
+
+  .profile-card {
+    padding: 0.75rem;
+  }
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .profile-name {
+    font-size: 0.875rem;
+  }
+
+  .profile-email {
+    font-size: 0.7rem;
+  }
+
+  .menu-item {
+    padding: 0.75rem;
+  }
+
+  .icon-container {
+    width: 20px;
+    height: 20px;
+    font-size: 1.125rem;
+  }
+
+  .menu-title {
     font-size: 0.75rem;
-    font-weight: 500;
-    margin-left: 0.5rem;
-  }
-  
-  .example-content {
-    height: 200vh;
-    width: 100%;
-  }
-  
-
-  .dotted-button {
-    
-    border: 2px solid black;
-    margin-top: 20px;
-    border-radius: 4px;
-    margin-left: 6px;
-    background-color: white;
-    color: black;
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .dotted-button:hover {
-    transform: translate(-4px, -4px);
-    border-radius: 6px;
-    box-shadow: 4px 4px 0px black;
-  }
-  
-  .dotted-button:active {
-    transform: translate(0, 0);
-    border-radius: 16px;
-    box-shadow: none;
   }
 
-  @media (max-width: 468px) {
-    .email-text {
-      font-size: 0.4rem;
-    }
-    .sidebar {
-      width: 120px; 
-      font-size: 0.65rem;
-      padding: 0.25rem;
-    }
-  
-    .icon-container {
-      width: 32px;
-      font-size: 1rem;
-    }
-  
-    .option-title,
-    .title-main,
-    .title-sub {
-      font-size: 0.6rem;
-    }
-  
-    .notif-badge {
-      font-size: 0.55rem;
-      right: 0.2rem;
-      top: 42%;
-      padding: 0.1rem 0.25rem;
-    }
-  
-    .logo-box {
-      width: 32px;
-      height: 32px;
-    }
-  
-    .chevron-icon {
-      font-size: 0.9rem;
-    }
-  
-    .toggle-button {
-      padding: 0.3rem;
-    }
-
-    .toggle-content {
-        font-size: 1rem;
-        padding: 1rem;
-    }
-
-    
-  
-    .hide-label {
-      font-size: 1rem;
-    }
+  .logout-button {
+    padding: 0.75rem;
   }
-  
 
+  .logout-button span {
+    font-size: 0.75rem;
+  }
+
+  .toggle-button {
+    width: 36px;
+    height: 36px;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* iOS Specific */
+@supports (-webkit-touch-callout: none) {
+  .sidebar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Android Specific */
+@supports not (-webkit-touch-callout: none) {
+  .menu-item:active,
+  .logout-button:active,
+  .toggle-button:active {
+    transform: scale(0.98);
+  }
+}
   
