@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
@@ -7,29 +8,41 @@ const featuresData = [
   {
     title: 'Full Stack Development',
     description: 'Building modern web applications with React, TypeScript, and Next.js. Creating robust backend solutions with Spring Boot and Django.',
-    icon: 'fas fa-code',
+    icon: 'fas fa-layer-group',
     gradient: 'from-purple-600 to-pink-600',
     svg: (
       <svg viewBox="0 0 200 200" className="w-full h-full">
-        <motion.path
-          d="M40 100 L80 60 L120 100 L80 140 Z"
-          fill="none"
-          stroke="url(#gradient1)"
-          strokeWidth="2"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: "easeInOut" }}
+        <motion.rect
+          x="40" y="120" width="120" height="24" rx="8"
+          fill="rgba(139,92,246,0.15)" stroke="url(#gradient1)" strokeWidth="2"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}
+        />
+        <motion.rect
+          x="60" y="90" width="80" height="24" rx="8"
+          fill="rgba(236,72,153,0.15)" stroke="url(#gradient2)" strokeWidth="2"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}
+        />
+        <motion.rect
+          x="80" y="60" width="40" height="24" rx="8"
+          fill="rgba(139,92,246,0.25)" stroke="url(#gradient1)" strokeWidth="2"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }}
+        />
+        <motion.text
+          x="100" y="78" textAnchor="middle" fill="#8B5CF6" fontSize="18"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.7 }}
+        >{'< />'}</motion.text>
+        <motion.rect
+          x="120" y="135" width="32" height="16" rx="4"
+          fill="#22223b" stroke="#8B5CF6" strokeWidth="2"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 0.9 }}
         />
         <motion.circle
-          cx="100"
-          cy="100"
-          r="30"
-          fill="none"
-          stroke="url(#gradient2)"
-          strokeWidth="2"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          cx="132" cy="143" r="2" fill="#8B5CF6"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 1.1 }}
+        />
+        <motion.circle
+          cx="140" cy="143" r="2" fill="#8B5CF6"
+          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5, delay: 1.2 }}
         />
         <defs>
           <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
